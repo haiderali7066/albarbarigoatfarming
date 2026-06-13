@@ -3,6 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowRight } from 'react-icons/fa'; // Using react-icons to match your Header style
 
+import { 
+  FaMobileAlt, 
+  FaUserAlt, 
+  FaCertificate, 
+  FaTruck 
+} from 'react-icons/fa';
+
+
 // High-quality Unsplash images of goat herds
 const GOAT_SLIDES = [
   "https://images.unsplash.com/photo-1524024973431-2ad916746881?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
@@ -21,7 +29,36 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
-  return (
+
+
+const featuresData = [
+  {
+    id: 1,
+    title: "TECHNOLOGY",
+    desc: "We've been using tech",
+    icon: FaMobileAlt,
+  },
+  {
+    id: 2,
+    title: "BEST FARMERS",
+    desc: "Skilled team of farmers",
+    icon: FaUserAlt,
+  },
+  {
+    id: 3,
+    title: "WE'RE CERTIFIED",
+    desc: "Agrion is certified market",
+    icon: FaCertificate,
+  },
+  {
+    id: 4,
+    title: "WE DELIVER",
+    desc: "We deliver everywhere",
+    icon: FaTruck,
+  }
+];
+
+  return (<>
     <section className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden font-sans pt-24 pb-20">
       
       {/* Background Images with smooth crossfade */}
@@ -37,7 +74,7 @@ export default function Hero() {
       
       {/* Gradient Overlays (Ensures text readability on mobile and desktop) */}
       <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#0a1a0f]/95 via-[#0a1a0f]/80 to-transparent z-10" />
-      <div className="absolute inset-0 bg-black/10 z-10" />
+       <div className="absolute inset-0 bg-black/10 z-10" />
 
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[1920px] mx-auto px-5 md:px-12 lg:px-24">
@@ -120,5 +157,54 @@ export default function Hero() {
       </div>
 
     </section>
+
+    <section className="relative bg-[#ffc222] pt-20 pb-28 px-4 overflow-hidden z-10">
+      
+      {/* Subtle Bottom Field Background Overlay */}
+      <div 
+        className="absolute bottom-0 left-0 w-full h-[60%] bg-cover bg-bottom opacity-15 mix-blend-multiply pointer-events-none"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595185564887-f81d1844b361?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}
+      />
+
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-[1300px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 xl:gap-8">
+          
+          {featuresData.map((feature) => (
+            <div 
+              key={feature.id} 
+              className="bg-[#0a1a0f] rounded-xl px-6 pt-12 pb-14 flex flex-col items-center text-center relative shadow-2xl transition-transform duration-300 hover:-translate-y-2"
+            >
+              {/* Icon */}
+              <feature.icon className="text-[#ffc222] text-5xl mb-6 drop-shadow-md" />
+              
+              {/* Text Content */}
+              <h3 className="text-white text-[22px] font-bold tracking-widest uppercase mb-3 font-sans">
+                {feature.title}
+              </h3>
+              <p className="text-gray-400 text-[15px] font-medium">
+                {feature.desc}
+              </p>
+
+              {/* Overlapping Number Badge */}
+              <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-[#ffc222] rounded-full p-2">
+                {/* Outer dark ring matches card bg */}
+                <div className="bg-[#0a1a0f] rounded-full p-1.5">
+                  {/* Inner green circle */}
+                  <div className="w-[42px] h-[42px] bg-[#1a5a1f] rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-lg">
+                      {feature.id}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

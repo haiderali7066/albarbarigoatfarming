@@ -1,6 +1,6 @@
-"use client"; // Required for useState in Next.js App Router
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   FaEnvelope, 
@@ -16,14 +16,37 @@ import { FiSearch, FiShoppingCart, FiMenu, FiX } from 'react-icons/fi';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Detect scroll to trigger the sticky styling changes
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="relative w-full lg:pt-8 lg:pb-8 z-50 bg-white lg:bg-transparent shadow-md lg:shadow-none">
+    <header 
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' 
+          : 'bg-white lg:bg-transparent lg:pt-8 lg:pb-8 shadow-md lg:shadow-none'
+      }`}
+    >
       {/* Main Container */}
       <div className="relative max-w-[1300px] mx-auto px-4 flex items-center justify-between lg:justify-start py-3 lg:py-0">
         
-        {/* Logo wrapper (Responsive positioning) */}
-        <div className="relative lg:absolute left-0 lg:left-4 top-0 lg:top-1/2 lg:-translate-y-1/2 z-50">
+        {/* Logo wrapper (Responsive positioning & Shrinks on scroll) */}
+        <div className={`relative lg:absolute left-0 lg:left-4 z-50 transition-all duration-300 ${
+          isScrolled ? 'top-0 lg:top-1/2 lg:-translate-y-1/2 scale-90' : 'top-0 lg:top-1/2 lg:-translate-y-1/2 scale-100'
+        }`}>
           <Link href="/">
             <div className="w-[70px] h-[70px] md:w-[90px] md:h-[90px] lg:w-[140px] lg:h-[140px] bg-white rounded-full flex items-center justify-center lg:shadow-lg border-2 lg:border-4 border-transparent overflow-hidden shrink-0">
                <img 
@@ -49,8 +72,10 @@ const Header = () => {
         {/* ========================================= */}
         <div className="hidden lg:flex w-full ml-[95px] flex-col rounded-r-2xl shadow-xl bg-white">
           
-          {/* Top Bar (Dark Green) */}
-          <div className="bg-[#12310f] text-white flex justify-between items-center py-3 pr-8 pl-[120px] rounded-tr-2xl">
+          {/* Top Bar (Dark Green) - Hides on Scroll to save space */}
+          <div className={`bg-[#12310f] text-white flex justify-between items-center pr-8 pl-[120px] rounded-tr-2xl overflow-hidden transition-all duration-300 ${
+            isScrolled ? 'h-0 opacity-0 py-0' : 'h-auto opacity-100 py-3'
+          }`}>
             {/* Contact Information */}
             <div className="flex items-center gap-8 text-[13px] font-medium tracking-wide">
               <a href="mailto:needhelp@company.com" className="flex items-center gap-2 hover:text-[#f2b810] transition-colors">
@@ -77,7 +102,9 @@ const Header = () => {
           </div>
 
           {/* Bottom Bar (White) */}
-          <div className="bg-white flex justify-between items-center py-3 pr-4 pl-[120px] rounded-br-2xl">
+          <div className={`bg-white flex justify-between items-center pr-4 pl-[120px] transition-all duration-300 ${
+            isScrolled ? 'py-2 rounded-2xl' : 'py-3 rounded-br-2xl'
+          }`}>
             
             {/* Navigation Links */}
             <nav className="flex items-center gap-8 text-[#666666] font-semibold text-[15px]">
