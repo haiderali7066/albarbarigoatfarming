@@ -1,139 +1,149 @@
 "use client"; // Required for Next.js state and effects
 
 import React, { useState, useEffect } from 'react';
-import { FaArrowRight } from 'react-icons/fa'; // Using react-icons to match your Header style
+import { FaArrowRight, FaCheckCircle } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 
-import { 
-  FaMobileAlt, 
-  FaUserAlt, 
-  FaCertificate, 
-  FaTruck 
-} from 'react-icons/fa';
+import ServicesShowcase from '@/components/home/ourservices';
+import FeaturedBreeds from '@/components/home/produts';
+import SadqahBanner from '@/components/home/sadqabanner';
+import PaymentSection from '@/components/home/paymentsection';
+import SupportOrderSection from '@/components/home/Supportform';
+import GoatBlogSection from '@/components/home/blogsection';
 
 
-// High-quality Unsplash images of goat herds
-const GOAT_SLIDES = [
-  "https://images.unsplash.com/photo-1524024973431-2ad916746881?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-  "https://images.unsplash.com/photo-1560888126-5c13ad3f9345?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1613846043689-afad9cb6317d?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
+const SLIDES_DATA = [
+  {
+    image: "1.jpeg",
+    subheading: "Welcome To Al-Barbari Goat Farming",
+    titlePrimary: "Pakistan's Trusted",
+    titleSecondary: "Goat Farm",
+    description: "Delivering live goats directly to your doorstep in Lahore. We specialize in healthy Bakras for Aqeeqah and Sadqah.",
+    features: []
+  },
+  {
+    image: "2.jpeg",
+    subheading: "High Quality Breeds",
+    titlePrimary: "Premium Meat",
+    titleSecondary: "& Milk",
+    description: "We provide premium goats suitable for both meat and milk production.",
+    features: [
+      "Healthy & disease-free breeds",
+      "Best for meat quality and milk yield",
+      "Available in Male & Female"
+    ]
+  },
+  {
+    image: "3.jpeg",
+    subheading: "100% Certified Livestock",
+    titlePrimary: "Safe & Healthy",
+    titleSecondary: "Goats",
+    description: "Only fully vaccinated and medically examined goats are available at our farm. Your trust is our priority.",
+    features: []
+  }
 ];
+
+
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-play functionality (changes slide every 5 seconds)
+  // Auto-play interval
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === GOAT_SLIDES.length - 1 ? 0 : prev + 1));
+      setCurrentSlide((prev) => (prev === SLIDES_DATA.length - 1 ? 0 : prev + 1));
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
 
-
-const featuresData = [
-  {
-    id: 1,
-    title: "TECHNOLOGY",
-    desc: "We've been using tech",
-    icon: FaMobileAlt,
-  },
-  {
-    id: 2,
-    title: "BEST FARMERS",
-    desc: "Skilled team of farmers",
-    icon: FaUserAlt,
-  },
-  {
-    id: 3,
-    title: "WE'RE CERTIFIED",
-    desc: "Agrion is certified market",
-    icon: FaCertificate,
-  },
-  {
-    id: 4,
-    title: "WE DELIVER",
-    desc: "We deliver everywhere",
-    icon: FaTruck,
-  }
-];
-
-  return (<>
+  // The moving text items featuring your farm services
+  const marqueeItems = [
+    "100% Certified Barbari Breeds",
+    "Free Doorstep Delivery in Lahore",
+    "Healthy Bakra for Aqeeqah & Sadqah",
+    "Fully Vaccinated & Medically Examined Livestock",
+    "Premium Quality Meat & High Milk Yield",
+    "Pakistan's Trusted Goat Farm",
+  ];
+  return ( <>
     <section className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden font-sans pt-24 pb-20">
       
-      {/* Background Images with smooth crossfade */}
-      {GOAT_SLIDES.map((slide, index) => (
+      {/* Background Images Crossfade */}
+      {SLIDES_DATA.map((slide, index) => (
         <div 
           key={index}
           className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out ${
             currentSlide === index ? 'opacity-100 scale-105 z-0' : 'opacity-0 scale-100 -z-10'
           }`}
-          style={{ backgroundImage: `url('${slide}')` }} 
+          style={{ backgroundImage: `url('${slide.image}')` }} 
         />
       ))}
       
-      {/* Gradient Overlays (Ensures text readability on mobile and desktop) */}
-      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#0a1a0f]/95 via-[#0a1a0f]/80 to-transparent z-10" />
-       <div className="absolute inset-0 bg-black/10 z-10" />
+      {/* Readability Overlays */}
+      <div className="absolute opacity-60 inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#0a1a0f]/95 via-[#0a1a0f]/80 to-transparent z-10" />
+      {/* <div className="absolute inset-0 bg-black/20 z-10" /> */}
 
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[1920px] mx-auto px-5 md:px-12 lg:px-24">
-        <div className="max-w-[800px]">
+        <div className="max-w-[800px] flex flex-col">
           
-          {/* Subheading */}
-          <div className="mb-6 md:mb-8 inline-flex flex-col animate-[fadeInUp_1s_ease-out]">
-            <span className="text-white text-base md:text-[22px] font-semibold tracking-wide">
-              Welcome to Al-Barbari Farm
-            </span>
-            {/* Extended White Underline */}
-            <div className="h-[2px] w-full md:w-[115%] bg-white mt-2 md:mt-3" />
+          {/* Animated Text Wrapper: Fixed heights stop layout shifting entirely */}
+          <div className="relative min-h-[380px] sm:min-h-[320px] md:min-h-[340px] w-full">
+            {SLIDES_DATA.map((slide, index) => {
+              const isActive = currentSlide === index;
+              return (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
+                    isActive 
+                      ? 'opacity-100 translate-y-0 pointer-events-auto z-20' 
+                      : 'opacity-0 translate-y-6 pointer-events-none z-10'
+                  }`}
+                >
+                  {/* Subheading */}
+                  <div className="mb-4 md:mb-6 inline-flex flex-col">
+                    <span className="text-white text-base md:text-[20px] font-semibold tracking-wide uppercase">
+                      {slide.subheading}
+                    </span>
+                    <div className="h-[2px] w-24 bg-[#ffc222] mt-2" />
+                  </div>
+
+                  {/* Main Heading */}
+                  <h1 className="text-white font-bold leading-[1.15] text-4xl sm:text-6xl md:text-[75px] tracking-tight mb-4">
+                    {slide.titlePrimary} <br/>
+                    <span className="text-[#ffc222] font-serif italic pr-4">
+                      {slide.titleSecondary}
+                    </span>
+                  </h1>
+
+                  {/* Description */}
+                  <p className="text-gray-300 text-base md:text-lg max-w-[600px] mb-4 leading-relaxed">
+                    {slide.description}
+                  </p>
+
+                  {/* Features List */}
+                  {slide.features.length > 0 && (
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                      {slide.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center text-white text-sm md:text-base">
+                          <FaCheckCircle className="text-[#ffc222] mr-2 shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          {/* Main Heading */}
-          <h1 className="text-white font-bold leading-[1.15] text-5xl sm:text-6xl md:text-[85px] tracking-tight mb-10 md:mb-14">
-            <div className="flex flex-wrap items-center gap-2 md:gap-4 animate-[fadeInUp_1.2s_ease-out]">
-              Agriculture 
-              {/* Stylized Yellow '&' */}
-              <span className="text-[#ffc222] font-serif italic text-6xl sm:text-7xl md:text-[100px] leading-none translate-y-1">
-                &
-              </span>
-            </div>
-            
-            <div className="relative inline-flex items-center mt-2 animate-[fadeInUp_1.4s_ease-out]">
-              Pure Eco Farming
-              
-              {/* Stylized Line-Art Leaf SVG */}
-              <svg 
-                className="absolute -right-[40px] md:-right-[85px] top-1/2 -translate-y-1/2 w-12 sm:w-16 md:w-24 h-12 sm:h-16 md:h-24 text-white drop-shadow-md hidden sm:block" 
-                viewBox="0 0 100 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Top Leaf */}
-                <path 
-                  d="M15,85 Q20,30 50,15 Q65,45 15,85 Z" 
-                  stroke="currentColor" 
-                  strokeWidth="4" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                />
-                {/* Right Leaf */}
-                <path 
-                  d="M15,85 Q65,80 95,55 Q75,40 15,85 Z" 
-                  stroke="currentColor" 
-                  strokeWidth="4" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                />
-              </svg>
-            </div>
-          </h1>
-
-          {/* CTA Button */}
-          <div className="animate-[fadeInUp_1.6s_ease-out]">
-            <button className="group flex items-center gap-4 md:gap-6 bg-[#1a5a1f] rounded-full pl-6 md:pl-8 pr-1.5 md:pr-2 py-1.5 md:py-2 hover:bg-[#124216] transition-all duration-300 shadow-lg w-fit">
-              <span className="text-white font-bold text-[15px] md:text-[17px]">Discover More</span>
-              <div className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-[#ffc222] flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shrink-0">
+          {/* Completely Static CTA Button - Unaffected by transitions */}
+          <div className="mt-6 md:mt-8">
+            <button className="group flex items-center gap-4 md:gap-6 bg-[#1a5a1f] rounded-full pl-6 md:pl-8 pr-2 py-2 hover:bg-[#124216] transition-all duration-300 shadow-xl w-fit">
+              <span className="text-white font-bold text-[15px] md:text-[17px]">Order Online Now</span>
+              <div className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-[#ffc222] flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shrink-0">
                 <FaArrowRight className="text-[#0a1a0f] text-sm md:text-base" />
               </div>
             </button>
@@ -144,12 +154,14 @@ const featuresData = [
 
       {/* Right Side Carousel Indicators */}
       <div className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 flex flex-col gap-3 md:gap-4 z-30">
-        {GOAT_SLIDES.map((_, idx) => (
+        {SLIDES_DATA.map((_, idx) => (
           <button 
             key={idx}
             onClick={() => setCurrentSlide(idx)}
-            className={`w-[12px] h-[12px] md:w-[14px] md:h-[14px] rounded-full border-[2.5px] border-white transition-all duration-300 ${
-              currentSlide === idx ? 'bg-white scale-110' : 'bg-transparent hover:bg-white/50'
+            className={`w-[12px] h-[12px] md:w-[14px] md:h-[14px] rounded-full border-[2.5px] transition-all duration-300 ${
+              currentSlide === idx 
+                ? 'bg-[#ffc222] border-[#ffc222] scale-125 shadow-md' 
+                : 'bg-transparent border-white/60 hover:border-white'
             }`}
             aria-label={`Go to slide ${idx + 1}`} 
           />
@@ -158,53 +170,45 @@ const featuresData = [
 
     </section>
 
-    <section className="relative bg-[#ffc222] pt-20 pb-28 px-4 overflow-hidden z-10">
+    <div className="relative w-full bg-[#ffc222] py-4 md:py-5 overflow-hidden select-none border-y-2 border-[#0a1a0f]/10 shadow-md z-30">
       
-      {/* Subtle Bottom Field Background Overlay */}
-      <div 
-        className="absolute bottom-0 left-0 w-full h-[60%] bg-cover bg-bottom opacity-15 mix-blend-multiply pointer-events-none"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595185564887-f81d1844b361?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}
-      />
+      {/* Injecting the loop animation directly so it works instantly without changing global CSS configs */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes marqueeLoop {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-farm-marquee {
+          display: flex;
+          width: max-content;
+          animation: marqueeLoop 30s linear infinite;
+        }
+        .animate-farm-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}} />
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1300px] mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 xl:gap-8">
-          
-          {featuresData.map((feature) => (
-            <div 
-              key={feature.id} 
-              className="bg-[#0a1a0f] rounded-xl px-6 pt-12 pb-14 flex flex-col items-center text-center relative shadow-2xl transition-transform duration-300 hover:-translate-y-2"
-            >
-              {/* Icon */}
-              <feature.icon className="text-[#ffc222] text-5xl mb-6 drop-shadow-md" />
-              
-              {/* Text Content */}
-              <h3 className="text-white text-[22px] font-bold tracking-widest uppercase mb-3 font-sans">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 text-[15px] font-medium">
-                {feature.desc}
-              </p>
-
-              {/* Overlapping Number Badge */}
-              <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-[#ffc222] rounded-full p-2">
-                {/* Outer dark ring matches card bg */}
-                <div className="bg-[#0a1a0f] rounded-full p-1.5">
-                  {/* Inner green circle */}
-                  <div className="w-[42px] h-[42px] bg-[#1a5a1f] rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">
-                      {feature.id}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          ))}
-
-        </div>
+      <div className="animate-farm-marquee flex items-center gap-12 pr-12">
+        {/* We loop through the array twice to ensure a perfectly seamless infinite scroll glitch-free */}
+        {[...marqueeItems, ...marqueeItems].map((text, idx) => (
+          <div key={idx} className="flex items-center gap-6 whitespace-nowrap">
+            <span className="text-[#0a1a0f] font-sans font-extrabold text-sm md:text-base tracking-wider uppercase">
+              {text}
+            </span>
+            <FaStar className="text-[#1a5a1f] text-xs md:text-sm shrink-0" />
+          </div>
+        ))}
       </div>
-    </section>
+      
+    </div>
+    <ServicesShowcase />
+    <FeaturedBreeds/>
+    <SadqahBanner/>
+    <PaymentSection/>
+    <SupportOrderSection/>
+    <GoatBlogSection/>
+
     </>
   );
 }
