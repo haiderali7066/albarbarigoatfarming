@@ -22,18 +22,11 @@ const handleChange = (
   });
 };
 
-  const handleWhatsAppSubmit = (e) => {
-    e.preventDefault(); // Prevents page reload
-    
-    // Formatting the message for WhatsApp (using asterisks * for bold text)
-    const textMessage = `*New Order & Support Request* 🐐\n\n*Name (To Whom):* ${formData.toWhom}\n*Delivery Address:* ${formData.address}\n*Selected Animal:* ${formData.animal}\n*Preparation Method:* ${formData.slaughterMethod}\n\n_Please confirm my order details._`;
-    
-    const encodedMessage = encodeURIComponent(textMessage);
-    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    
-    // Open WhatsApp in a new tab
-    window.open(waLink, '_blank');
-  };
+ const handleWhatsAppSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  // Your existing code
+};
 
   return (
     <section className="bg-white py-24 font-sans text-[#0a1a0f]">
