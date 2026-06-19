@@ -13,10 +13,14 @@ export default function SupportOrderSection() {
     animal: 'Barbari Goat',
     slaughterMethod: 'Live Animal Delivery'
   });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
 
   const handleWhatsAppSubmit = (e) => {
     e.preventDefault(); // Prevents page reload
