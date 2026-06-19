@@ -92,10 +92,7 @@ const Header = () => {
                   src="/logo.png" 
                   alt="Al-Barbari Logo" 
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback if image is missing
-                    e.target.src = 'https://placehold.co/100x100/0A3B28/D4AF37?text=AB'; 
-                  }}
+                  
                 />
               </div>
               <div className="flex flex-col">
