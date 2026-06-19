@@ -151,7 +151,7 @@ export default function Footer() {
             <div>
               <h4 className="font-semibold mb-1">Call Us</h4>
               <p className="text-gray-300">
-                +92 300 1234567
+                +92 328 0425087
               </p>
             </div>
           </div>
@@ -177,7 +177,8 @@ export default function Footer() {
             <div>
               <h4 className="font-semibold mb-1">Location</h4>
               <p className="text-gray-300">
-                Lahore, Punjab, Pakistan
+                New Garden Town, Tariq Block,
+Lahore, Punjab, Pakistan
               </p>
             </div>
           </div>
@@ -186,7 +187,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Al Barbari Farm. All Rights Reserved.
+            © {new Date().getFullYear()} Al Barbari Farm. All Rights Reserved.   Developed by Devntom solutions
           </p>
 
           {/* Social */}

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { FaWhatsapp, FaHeadset, FaCheck } from "react-icons/fa";
 
 export default function SupportOrderSection() {
-  const WHATSAPP_NUMBER = "923001234567"; // Replace with your WhatsApp number
+  const WHATSAPP_NUMBER = "923280425087"; // Replace with your WhatsApp number
 
   const [formData, setFormData] = useState({
     toWhom: "",

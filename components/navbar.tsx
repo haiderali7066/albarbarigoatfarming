@@ -134,7 +134,7 @@ const Header = () => {
                 <div>
                   <p className="text-xs text-gray-500 font-medium">WhatsApp Us</p>
                   <a href="https://wa.me/923000000000" className="text-[#0A3B28] font-bold hover:text-[#D4AF37] transition-colors">
-                    +92 300 0000000
+                    +92 328 0425087
                   </a>
                 </div>
               </div>
@@ -204,14 +204,14 @@ const Header = () => {
             <div className="mt-10 p-5 rounded-2xl bg-[#0A3B28]/5 border border-[#0A3B28]/10 flex flex-col gap-4">
               <h4 className="text-[#0A3B28] font-bold border-b border-[#0A3B28]/10 pb-2 mb-2">Get in Touch</h4>
               
-              <a href="https://wa.me/923000000000" className="flex items-center gap-3 text-gray-700 hover:text-[#D4AF37] transition-colors font-medium">
+              <a href="https://wa.me/923280425087" className="flex items-center gap-3 text-gray-700 hover:text-[#D4AF37] transition-colors font-medium">
                 <div className="w-[36px] h-[36px] bg-[#25D366] text-white rounded-full flex items-center justify-center shrink-0">
                   <FaWhatsapp className="text-xl"/> 
                 </div>
-                +92 300 0000000
+                +92 328 0425087
               </a>
               
-              <a href="tel:+923000000000" className="flex items-center gap-3 text-gray-700 hover:text-[#D4AF37] transition-colors font-medium">
+              <a href="tel:+923280425087" className="flex items-center gap-3 text-gray-700 hover:text-[#D4AF37] transition-colors font-medium">
                 <div className="w-[36px] h-[36px] bg-[#0A3B28] text-white rounded-full flex items-center justify-center shrink-0">
                   <FaPhoneAlt className="text-sm"/> 
                 </div>
@@ -222,7 +222,8 @@ const Header = () => {
                 <div className="w-[36px] h-[36px] bg-[#D4AF37] text-white rounded-full flex items-center justify-center shrink-0">
                   <FaMapMarkerAlt className="text-sm"/> 
                 </div>
-                <span>Shahdara, Punjab, Pakistan</span>
+                <span>New Garden Town, Tariq Block,
+Lahore, Punjab, Pakistan</span>
               </div>
 
               {/* Mobile Socials */}
