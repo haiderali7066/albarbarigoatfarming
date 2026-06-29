@@ -18,7 +18,7 @@ export default function Footer() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/footer-bg.jpg"
+          src="/goats/9.jpeg"
           alt="Al Barbari Farm"
           fill
           priority

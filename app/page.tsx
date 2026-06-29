@@ -10,6 +10,7 @@ import SadqahBanner from '@/components/home/sadqabanner';
 import PaymentSection from '@/components/home/paymentsection';
 import SupportOrderSection from '@/components/home/Supportform';
 import GoatBlogSection from '@/components/home/blogsection';
+import WhatsAppContactForm from '@/components/home/contactform';
 
 
 
@@ -208,6 +209,7 @@ export default function Hero() {
     <PaymentSection/>
     <SupportOrderSection/>
     <GoatBlogSection/>
+    {/* <WhatsAppContactForm/> */}
 
     </>
   );

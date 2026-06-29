@@ -9,7 +9,7 @@ const blogs = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1524024973431-2ad916746881?w=800&q=80",
+      "/goats/7.jpeg",
     icon: <FaUsers />,
     title: "Healthy Goat Breeding",
     desc: "Learn modern breeding techniques to raise stronger, healthier goats with improved productivity.",
@@ -17,7 +17,7 @@ const blogs = [
   {
     id: 2,
     image:
-      "https://images.unsplash.com/photo-1524024973431-2ad916746881?w=800&q=80",
+      "/goats/8.jpeg",
     icon: <FaGraduationCap />,
     title: "Goat Farming Guide",
     desc: "Discover feeding schedules, vaccination plans and daily care practices for successful farming.",
@@ -25,7 +25,7 @@ const blogs = [
   {
     id: 3,
     image:
-      "https://images.unsplash.com/photo-1524024973431-2ad916746881?w=800&q=80",
+      "/goats/9.jpeg",
     icon: <FaHandHoldingHeart />,
     title: "Qurbani & Sadqah Goats",
     desc: "Premium quality goats available for Qurbani, Aqiqah and Sadqah with doorstep delivery.",
