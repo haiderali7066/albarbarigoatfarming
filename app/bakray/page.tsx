@@ -229,6 +229,7 @@ export default function BakrayPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="max-w-[1200px] mx-auto bg-[#12823b] rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 text-center shadow-[0_20px_50px_rgba(18,130,59,0.3)] relative overflow-hidden"
         >
           {/* Decorative shapes inside CTA */}
