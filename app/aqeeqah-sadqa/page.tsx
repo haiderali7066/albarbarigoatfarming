@@ -332,7 +332,7 @@ _Please confirm availability and share options._`;
                 <div className="flex flex-col group">
                   <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1 group-focus-within:text-[#12823b] transition-colors">Special Instructions / Name to Recite</label>
                   <textarea 
-                    name="specialInstructions" rows="3" value={formData.specialInstructions} onChange={handleChange} 
+                    name="specialInstructions" rows={3} value={formData.specialInstructions} onChange={handleChange} 
                     placeholder="E.g., Name of the child for Aqeeqah, or specific cut requirements..."
                     className="w-full bg-[#f8faf9] border border-gray-200 rounded-2xl p-4 outline-none focus:border-[#12823b] focus:ring-2 focus:ring-[#12823b]/20 transition-all resize-none text-[#0a1a0f] font-medium"
                   />
