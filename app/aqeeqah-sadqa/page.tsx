@@ -34,17 +34,37 @@ export default function SadqahAqeeqahPage() {
     setIsVisible(true);
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
 
-  const handleWhatsAppSubmit = (e) => {
-    e.preventDefault();
-    const textMessage = `*New Spiritual Service Request* 🐐\n\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Service:* ${formData.serviceType}\n*Distribution:* ${formData.distributionMethod}\n\n*Instructions:*\n${formData.specialInstructions || "None"}\n\n_Please confirm availability and share options._`;
-    const encodedMessage = encodeURIComponent(textMessage);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
-  };
+  const handleWhatsAppSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
+  const textMessage = `*New Spiritual Service Request* 🐐
+
+*Name:* ${formData.name}
+*Phone:* ${formData.phone}
+*Service:* ${formData.serviceType}
+*Distribution:* ${formData.distributionMethod}
+
+*Instructions:*
+${formData.specialInstructions || "None"}
+
+_Please confirm availability and share options._`;
+
+  const encodedMessage = encodeURIComponent(textMessage);
+
+  window.open(
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+    "_blank"
+  );
+};
   return (
     <>
       {/* Custom Animations matching Navbar smooth feel */}
