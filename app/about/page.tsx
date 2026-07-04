@@ -24,12 +24,21 @@ export default function AboutPage() {
     setIsVisible(true);
   }, []);
 
-  const handleWhatsApp = (e) => {
-    e.preventDefault();
-    const textMessage = `Hello Al-Barbari Team, I would like to know more about your farm and services.`;
-    const encodedMessage = encodeURIComponent(textMessage);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
-  };
+ const handleWhatsApp = (
+  e: React.MouseEvent<HTMLButtonElement>
+) => {
+  e.preventDefault();
+
+  const textMessage =
+    "Hello Al-Barbari Team, I would like to know more about your farm and services.";
+
+  const encodedMessage = encodeURIComponent(textMessage);
+
+  window.open(
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+    "_blank"
+  );
+};
 
   return (
     <>
