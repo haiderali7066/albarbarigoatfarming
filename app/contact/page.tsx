@@ -23,7 +23,7 @@ export default function ContactPage() {
     message: ''
   });
 
-  const [activeFaq, setActiveFaq] = useState(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   // Trigger entrance animations on load
@@ -47,22 +47,30 @@ export default function ContactPage() {
   ];
 
   const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-) => {
-  setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-  });
-};
-  const handleWhatsAppSubmit = (e) => {
-    e.preventDefault();
-    const textMessage = `*New Website Inquiry* 🐐\n\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Subject:* ${formData.subject}\n\n*Message:*\n${formData.message}`;
-    const encodedMessage = encodeURIComponent(textMessage);
-    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    window.open(waLink, '_blank');
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const toggleFaq = (index) => {
+  const handleWhatsAppSubmit = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    const textMessage = `*New Website Inquiry* 🐐\n\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Subject:* ${formData.subject}\n\n*Message:*\n${formData.message}`;
+
+    const encodedMessage = encodeURIComponent(textMessage);
+
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+      "_blank"
+    );
+  };
+
+  const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
@@ -212,7 +220,7 @@ export default function ContactPage() {
               <div className="flex flex-col group">
                 <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1 group-focus-within:text-[#12823b] transition-colors">Message</label>
                 <textarea 
-                  name="message" required rows="5" value={formData.message} onChange={handleChange} placeholder="How can we help you today?"
+                  name="message" required rows={5} value={formData.message} onChange={handleChange} placeholder="How can we help you today?"
                   className="w-full bg-[#f8faf9] border border-gray-200 rounded-2xl p-4 outline-none focus:border-[#12823b] focus:ring-2 focus:ring-[#12823b]/20 transition-all resize-none text-[#0a1a0f] font-medium"
                 />
               </div>
@@ -328,7 +336,7 @@ export default function ContactPage() {
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
-              allowFullScreen="" 
+              allowFullScreen={false} 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
               title="Al Barbari Goat Farming Location"
