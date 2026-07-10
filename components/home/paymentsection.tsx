@@ -66,7 +66,8 @@ export default function PaymentSection() {
           <div className="w-16 h-[3px] bg-[#ffc222]"></div>
           
           <p className="text-gray-600 mt-6 max-w-xl text-lg">
-            We offer multiple secure and highly flexible payment methods to make your livestock purchase as smooth as possible.
+            We offer multiple secure and highly flexible payment methods to make your livestock purchase as smooth as possible. For Overseas Orders, Payment & info 
+03277666764
           </p>
         </div>
 

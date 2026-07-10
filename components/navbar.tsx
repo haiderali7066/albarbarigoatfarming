@@ -12,7 +12,7 @@ import {
   FaTwitter,
   FaGlobe
 } from 'react-icons/fa';
-import { FiMenu, FiX, FiSearch } from 'react-icons/fi';
+import { FiMenu, FiX, } from 'react-icons/fi';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,15 +32,26 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // New Brand Colors based on the SadqahBanner reference
+  // Brand Colors
   const primaryGreen = "#12823b";
   const accentYellow = "#ffc222";
   const darkContrast = "#0a1a0f";
 
   return (
     <>
-      {/* Custom CSS for seamless Marquee animation */}
+      {/* Custom CSS: fonts + seamless Marquee animation */}
       <style dangerouslySetInnerHTML={{__html: `
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
+
+        /* Nastaliq applies ONLY to Urdu text (brand name, بکرے nav link).
+           Arabic (the dua marquee) and English keep their existing fonts. */
+        .font-nastaliq {
+          font-family: "Noto Nastaliq Urdu", serif;
+          font-optical-sizing: auto;
+          font-weight: 700;
+          font-style: normal;
+        }
+
         @keyframes scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -53,6 +64,14 @@ const Header = () => {
         .animate-marquee-seamless:hover {
           animation-play-state: paused;
         }
+        .animate-marquee-dua {
+          display: flex;
+          white-space: nowrap;
+          animation: scroll 20s linear infinite;
+        }
+        .animate-marquee-dua:hover {
+          animation-play-state: paused;
+        }
       `}} />
 
       <header className="fixed top-0 left-0 w-full z-[100] flex flex-col font-sans">
@@ -60,7 +79,7 @@ const Header = () => {
         {/* ========================================= */}
         {/* 1. MARQUEE TOP BAR (Hides on scroll)      */}
         {/* ========================================= */}
-        <div className={`bg-[#12823b] text-[#ffc222] text-sm font-medium overflow-hidden transition-all duration-300 shadow-md ${
+        <div className={`bg-[#12823b] text-white text-sm font-medium overflow-hidden transition-all duration-300 shadow-md ${
           isScrolled ? 'h-0 py-0 opacity-0' : 'h-[36px] py-2 opacity-100'
         }`}>
           <div className="animate-marquee-seamless w-max">
@@ -82,13 +101,14 @@ const Header = () => {
         </div>
 
         {/* ========================================= */}
-        {/* 2. FLOATING GEOMETRIC NAVBAR (Desktop)    */}
+        {/* 2. FIXED NAVBAR (Desktop) — full-width,   */}
+        {/* edge-to-edge, no floating card/margins    */}
         {/* ========================================= */}
-        <div className={`w-full transition-all duration-500 ease-in-out hidden lg:block ${
-          isScrolled ? 'pt-4 px-4 lg:px-8' : 'pt-6 px-4 lg:px-8'
-        }`}>
+        <div className="w-full hidden lg:block">
           
-          <div className="max-w-[1400px] mx-auto h-[100px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden flex border border-gray-100/50 relative">
+          <div className={`w-full h-[100px] bg-white overflow-hidden flex border-b border-gray-100 relative transition-shadow duration-300 ${
+            isScrolled ? 'shadow-[0_4px_20px_rgba(0,0,0,0.1)]' : 'shadow-sm'
+          }`}>
             
             {/* Left Section: Logo & Name (White BG) */}
             <div className="w-[280px] xl:w-[320px] h-full flex items-center pl-6 xl:pl-8 bg-white z-10">
@@ -101,11 +121,11 @@ const Header = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-[#12823b] leading-tight font-serif tracking-wide group-hover:text-[#e5ae1e] transition-colors">
-                    البربری
+                  <span className="text-2xl font-bold text-[#12823b] leading-tight font-nastaliq tracking-wide group-hover:text-[#e5ae1e] transition-colors">
+                    البربری گوٹ فارمنگ
                   </span>
                   <span className="text-xs text-gray-500 font-bold uppercase tracking-[0.15em]">
-                    گوٹ فارمنگ
+                   
                   </span>
                 </div>
               </Link>
@@ -131,23 +151,29 @@ const Header = () => {
 
                 {/* Main Green Bar */}
                 <div 
-                  className="ml-[44px] flex-1 flex items-center justify-end pr-8 text-white z-10"
+                  className="ml-[44px] flex-1 flex items-center gap-6 pr-8 text-white z-10"
                   style={{ backgroundColor: primaryGreen, borderBottom: `3px solid ${accentYellow}` }}
                 >
-                  {/* Social Icons */}
-                  <div className="flex items-center gap-2">
-                    {[FaFacebookF, FaTwitter, FaInstagram, FaWhatsapp].map((Icon, idx) => (
-                      <a key={idx} href="#" className="w-[26px] h-[26px] rounded-full border border-white/30 flex items-center justify-center hover:bg-[#ffc222] hover:border-[#ffc222] transition-all duration-300 group">
-                        <Icon size={11} className="group-hover:text-[#0a1a0f]" />
-                      </a>
-                    ))}
+                  {/* Dua Marquee — Arabic, keeps its own font (NOT Nastaliq) */}
+                  <div className="flex-1 min-w-0 h-full overflow-hidden flex items-center">
+                    <div className="animate-marquee-dua w-max" dir="rtl">
+                      {[...Array(2)].map((_, i) => (
+                        <span 
+                          key={i} 
+                          className="mx-10 font-serif text-[16px] tracking-wide inline-block"
+                          style={{ color: accentYellow }}
+                        >
+                          رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Divider */}
-                  <div className="w-[1px] h-[20px] bg-white/30 mx-6"></div>
+                  <div className="w-[1px] h-[20px] bg-white/30 shrink-0"></div>
 
                   {/* Phone Info */}
-                  <a href="tel:+923280425087" className="flex items-center gap-3 hover:text-[#ffc222] transition-colors group">
+                  <a href="tel:+923280425087" className="flex items-center gap-3 hover:text-[#ffc222] transition-colors group shrink-0">
                     <FaPhoneAlt size={16} color={accentYellow} />
                     <div className="flex flex-col leading-tight">
                       <span className="text-[9px] text-gray-200 font-bold tracking-widest group-hover:text-white transition-colors">CALL US</span>
@@ -156,34 +182,36 @@ const Header = () => {
                   </a>
 
                   {/* Divider */}
-                  <div className="w-[1px] h-[20px] bg-white/30 mx-6"></div>
+                  <div className="w-[1px] h-[20px] bg-white/30 shrink-0"></div>
 
                   {/* Address Info */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 shrink-0">
                     <FaMapMarkerAlt size={18} color={accentYellow} />
                     <div className="flex flex-col leading-tight">
                       <span className="text-[9px] text-gray-200 font-bold tracking-widest">LOCATION</span>
-                      <span className="text-[12px] font-semibold text-white">144 TARIQ B N G TOWN LHR</span>
+                      <span className="text-[12px] font-semibold text-white">Trade Center JT Lahore</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Row 2: Main Nav Links (White Bar) */}
-              <div className="flex-1 w-full bg-white flex items-center justify-end pr-8 rounded-br-2xl relative z-10">
+              <div className="flex-1 w-full bg-white flex items-center justify-end pr-8 relative z-10">
                 <nav className="flex items-center gap-7 xl:gap-9 mr-8">
                   {[
                     { name: 'HOME', path: '/' },
-                    { name: 'بکرے', path: '/bakray' },
+                    { name: 'بکرے', path: '/bakray', urdu: true },
                     { name: 'CEO MSG', path: '/ceo-message' },
                     { name: 'AQEEQAH / SADQA', path: '/aqeeqah-sadqa' },
                     { name: 'BLOG', path: '/blog' },
-                    { name: 'CONTACT US', path: '/contact' },
+                    { name: 'ABOUT US', path: '/about' },
                   ].map((link) => (
                     <Link 
                       key={link.name} 
                       href={link.path} 
-                      className="text-[#0a1a0f] font-bold text-[13px] uppercase hover:text-[#12823b] transition-all tracking-wide relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-[#ffc222] after:left-0 after:-bottom-1.5 after:transition-all after:duration-300 hover:after:w-full"
+                      className={`text-[#0a1a0f] font-bold text-[13px] uppercase hover:text-[#12823b] transition-all tracking-wide relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-[#ffc222] after:left-0 after:-bottom-1.5 after:transition-all after:duration-300 hover:after:w-full ${
+                        link.urdu ? 'font-nastaliq normal-case text-[15px]' : ''
+                      }`}
                     >
                       {link.name}
                     </Link>
@@ -193,7 +221,6 @@ const Header = () => {
                 {/* Right Edge Actions */}
                 <div className="flex items-center gap-5 pl-5 border-l border-gray-200">
                   <button className="text-gray-500 hover:text-[#12823b] transition-colors transform hover:scale-110">
-                    <FiSearch size={20} strokeWidth={2.5} />
                   </button>
                   <Link 
                     href="/contact" 
@@ -210,21 +237,22 @@ const Header = () => {
         </div>
 
         {/* ========================================= */}
-        {/* 3. MOBILE NAVIGATION HEADER                 */}
+        {/* 3. MOBILE NAVIGATION HEADER — full-width,   */}
+        {/* edge-to-edge, no floating card/margins      */}
         {/* ========================================= */}
-        <div className={`w-full transition-all duration-300 lg:hidden ${
-          isScrolled ? 'pt-2 px-2' : 'pt-4 px-3'
-        }`}>
-          <div className="bg-white rounded-xl shadow-lg h-[75px] flex items-center justify-between px-4 border border-gray-100">
+        <div className="w-full lg:hidden">
+          <div className={`w-full bg-white h-[75px] flex items-center justify-between px-4 border-b border-gray-100 transition-shadow duration-300 ${
+            isScrolled ? 'shadow-[0_4px_20px_rgba(0,0,0,0.1)]' : 'shadow-sm'
+          }`}>
             <Link href="/" className="flex items-center gap-3">
               <div className="w-[45px] h-[45px] rounded-full overflow-hidden border-2 border-[#ffc222] bg-white shrink-0">
                 <img src="/logo.png" alt="Al-Barbari Logo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-[#12823b] leading-tight font-serif tracking-wide">
+                <span className="text-xl font-bold text-[#12823b] leading-tight font-nastaliq tracking-wide">
                   البربری
                 </span>
-                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.1em]">
+                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.1em] font-nastaliq">
                   گوٹ فارمنگ
                 </span>
               </div>
@@ -265,20 +293,33 @@ const Header = () => {
               <FiX size={24} />
             </button>
 
+            {/* Dua strip inside mobile sidebar — Arabic, keeps its own font (NOT Nastaliq) */}
+            <div 
+              className="mb-6 mt-2 py-2 px-3 rounded-xl overflow-hidden"
+              style={{ backgroundColor: primaryGreen }}
+              dir="rtl"
+            >
+              <span className="font-serif text-[13px] tracking-wide leading-relaxed block text-center" style={{ color: accentYellow }}>
+                رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ
+              </span>
+            </div>
+
             <nav className="flex flex-col gap-4 text-[#0a1a0f] font-bold text-lg mt-4">
               {[
                 { name: 'Home', path: '/' },
-                { name: 'بکرے', path: '/bakray' },
+                { name: 'بکرے', path: '/bakray', urdu: true },
                 { name: 'CEO Msg', path: '/ceo-message' },
                 { name: 'Aqeeqah / Sadqa', path: '/aqeeqah-sadqa' },
                 { name: 'Blog', path: '/blog' },
-                { name: 'Contact', path: '/contact' },
+                { name: 'About Us', path: '/about' },
               ].map((link) => (
                 <React.Fragment key={link.name}>
                   <Link 
                     href={link.path} 
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="hover:text-[#12823b] transition-colors py-2 flex items-center justify-between group"
+                    className={`hover:text-[#12823b] transition-colors py-2 flex items-center justify-between group ${
+                      link.urdu ? 'font-nastaliq' : ''
+                    }`}
                   >
                     {link.name}
                     <FaArrowRight className="text-sm opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 transition-all text-[#ffc222]"/>
@@ -310,7 +351,7 @@ const Header = () => {
                 <div className="w-[36px] h-[36px] bg-[#ffc222] text-[#0a1a0f] rounded-full flex items-center justify-center shrink-0 shadow-sm">
                   <FaMapMarkerAlt className="text-sm"/> 
                 </div>
-                <span className="text-xs leading-snug">144 Tariq B N G Town LHR</span>
+                <span className="text-xs leading-snug">Trade Center JT Lahore</span>
               </div>
 
               {/* Mobile Socials */}

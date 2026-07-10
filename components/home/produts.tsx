@@ -17,14 +17,7 @@ export default function AvailableStockMinimal() {
     { id: 6, name: "Nuqri Bakra", slug: "nuqri-bakra", image: "/goats/6.jpeg" },
     { id: 7, name: "Teddy Bakra", slug: "teddy-bakra", image: "/goats/1.jpeg" },
     { id: 8, name: "Nagri Bakra", slug: "nagri-bakra", image: "/goats/2.jpeg" },
-    { id: 9, name: "Desi Bakra", slug: "desi-bakra", image: "/goats/3.jpeg" },
-    { id: 10, name: "Gulabi Bakra", slug: "gulabi-bakra", image: "/goats/4.jpeg" },
-    {
-      id: 11,
-      name: "Rahim Yar Khan Ablak Bakra",
-      slug: "rahim-yar-khan-ablak-bakra",
-      image: "/goats/5.jpeg",
-    },
+   
   ];
 
   const containerVariants: Variants = {

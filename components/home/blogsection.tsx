@@ -1,72 +1,115 @@
-import Image from "next/image";
-import {
-  FaUsers,
-  FaGraduationCap,
-  FaHandHoldingHeart,
-} from "react-icons/fa";
+"use client";
 
-const blogs = [
+import React from 'react';
+
+// Sample blog data tailored for Al-Barbari Goat Farming
+const blogPosts = [
   {
     id: 1,
-    image:
-      "/goats/7.jpeg",
-    icon: <FaUsers />,
-    title: "Healthy Goat Breeding",
-    desc: "Learn modern breeding techniques to raise stronger, healthier goats with improved productivity.",
+    day: "10",
+    monthYear: "July 2026",
+    title: "The Importance of Purebred Barbari Goats",
+    excerpt: "Discover why the Barbari breed is highly valued for its exceptional meat quality, rapid growth rate, and perfect adaptability to the local climate of Punjab.",
+    image: "/goats/1.jpeg", 
   },
   {
     id: 2,
-    image:
-      "/goats/8.jpeg",
-    icon: <FaGraduationCap />,
-    title: "Goat Farming Guide",
-    desc: "Discover feeding schedules, vaccination plans and daily care practices for successful farming.",
+    day: "05",
+    monthYear: "July 2026",
+    title: "Preparing Your Sadqah & Aqeeqah With Us",
+    excerpt: "A complete guide on how our farm ensures 100% Shariah-compliant preparation, humane slaughtering, and transparent distribution of your religious sacrifices.",
+    image: "/goats/1.jpeg",
   },
   {
     id: 3,
-    image:
-      "/goats/9.jpeg",
-    icon: <FaHandHoldingHeart />,
-    title: "Qurbani & Sadqah Goats",
-    desc: "Premium quality goats available for Qurbani, Aqiqah and Sadqah with doorstep delivery.",
-  },
+    day: "28",
+    monthYear: "June 2026",
+    title: "Farm-to-Table: Our Premium Meat Promise",
+    excerpt: "Learn about our organic feeding practices, routine medical screenings, and spacious farm environments that guarantee healthy livestock and premium quality meat.",
+    image: "/goats/1.jpeg",
+  }
 ];
 
 export default function BlogSection() {
   return (
-    <section className="py-20 bg-[#f5f5f5]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8">
-          {blogs.map((blog) => (
-            <div key={blog.id} className="group">
-              {/* Image */}
-              <div className="relative h-[240px] overflow-hidden rounded-t-[80px] rounded-b-[35px]">
-                <Image
-                  src={blog.image}
-                  alt={blog.title}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-110"
-                  unoptimized
-                />
-              </div>
+    <section className="w-full py-20 md:py-28 bg-white font-sans text-[#0a1a0f] overflow-hidden">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12">
+        
+        {/* ========================================= */}
+        {/* 1. SECTION HEADER (Centered)              */}
+        {/* ========================================= */}
+        <div className="flex flex-col items-center text-center mb-20">
+          {/* Top Yellow Icon (Mimicking the 3-arch icon from the image) */}
+          <div className="text-[#ffc222] mb-4">
+            <svg width="40" height="32" viewBox="0 0 40 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 0L26 8V32H14V8L20 0Z" />
+              <path d="M6 10L12 16V32H0V16L6 10Z" />
+              <path d="M34 10L40 16V32H28V16L34 10Z" />
+            </svg>
+          </div>
+          
+          <span className="text-gray-500 font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4">
+            Articles & Updates
+          </span>
+          
+          <h2 className="text-4xl md:text-[54px] font-serif font-bold text-[#0a1a0f] leading-[1.1]">
+            Latest News
+          </h2>
+        </div>
 
-              {/* Content */}
-              <div className="relative pl-8 pt-6">
-                {/* Icon */}
-                <div className="absolute -top-7 left-0 w-14 h-14 rounded-full bg-[#0b8f47] flex items-center justify-center text-white text-xl shadow-lg">
-                  {blog.icon}
+        {/* ========================================= */}
+        {/* 2. THREE COLUMN GRID                      */}
+        {/* ========================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+          
+          {blogPosts.map((post) => (
+            <div key={post.id} className="flex flex-col group relative">
+              
+              {/* Image Container with Floating Badge */}
+              <div className="relative mb-6">
+                
+                {/* Floating Date Badge */}
+                <div className="absolute -top-5 -left-4 w-[90px] h-[90px] bg-[#ffc222] rounded-full flex flex-col items-center justify-center z-10 shadow-sm transform group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-[28px] font-black text-[#0a1a0f] leading-none mb-0.5">
+                    {post.day}
+                  </span>
+                  <span className="text-[10px] font-bold text-[#0a1a0f] uppercase tracking-wider">
+                    {post.monthYear}
+                  </span>
                 </div>
 
-                <h3 className="text-[28px] font-serif text-[#2b2b2b] mb-3">
-                  {blog.title}
-                </h3>
-
-                <p className="text-gray-500 text-sm leading-7 max-w-[280px]">
-                  {blog.desc}
-                </p>
+                {/* Arch-Shaped Image Mask */}
+                {/* rounded-tr-[130px] creates the distinct large arch on the top right */}
+                <div className="w-full h-[260px] rounded-tr-[130px] rounded-tl-xl rounded-b-xl overflow-hidden bg-gray-100 border border-gray-100">
+                  <img 
+                    src={post.image} 
+                    alt={post.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                  />
+                </div>
               </div>
+
+              {/* Content Area */}
+              <div className="flex flex-col flex-grow pr-4">
+                <h3 className="text-2xl font-serif font-bold text-[#0a1a0f] mb-4 leading-snug group-hover:text-[#12823b] transition-colors duration-300 line-clamp-2">
+                  {post.title}
+                </h3>
+                
+                <p className="text-gray-500 text-[15px] leading-relaxed mb-8 line-clamp-3">
+                  {post.excerpt}
+                </p>
+
+                {/* Button pinned to bottom */}
+                <div className="mt-auto">
+                  <button className="bg-[#ffc222] text-[#0a1a0f] font-bold text-sm px-9 py-3.5 rounded-full hover:bg-[#12823b] hover:text-white transition-all duration-300">
+                    Read More
+                  </button>
+                </div>
+              </div>
+
             </div>
           ))}
+
         </div>
       </div>
     </section>

@@ -69,11 +69,32 @@ const fadeUpItem: Variants = {
 };
 
 export default function ServicesShowcase() {
+  // Tracks the cursor position over a stat card and writes it to CSS vars,
+  // so the fill can radiate from wherever the pointer actually is.
+  const handleStatPointer = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--mx", `${x}px`);
+    e.currentTarget.style.setProperty("--my", `${y}px`);
+  };
+
   return (
     <section className="pt-16 md:pt-24 bg-[#fafafa] font-sans flex flex-col relative overflow-hidden">
       
-      {/* Seamless Marquee Styles */}
+      {/* Fonts + Seamless Marquee Styles */}
       <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
+
+        /* Nastaliq applies ONLY to Urdu text (the translated dua line below).
+           The Arabic line keeps its own serif font. */
+        .font-nastaliq {
+          font-family: "Noto Nastaliq Urdu", serif;
+          font-optical-sizing: auto;
+          font-weight: 700;
+          font-style: normal;
+        }
+
         @keyframes scrollStrip {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -125,7 +146,7 @@ export default function ServicesShowcase() {
             <motion.div
               key={index}
               variants={fadeUpItem}
-              className="relative group flex flex-col h-full bg-white rounded-t-[8rem] md:rounded-t-[10rem] rounded-bl-[1.5rem] rounded-br-[4rem] shadow-[0_4px_15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(18,130,59,0.15)] transition-all duration-500 hover:-translate-y-2 border border-gray-100"
+              className="relative group flex flex-col h-full bg-white hover:bg-[#12823b] rounded-t-[8rem] md:rounded-t-[10rem] rounded-bl-[1.5rem] rounded-br-[4rem] shadow-[0_4px_15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(18,130,59,0.15)] transition-all duration-500 hover:-translate-y-2 border border-gray-100 hover:border-transparent"
             >
               {/* Floating Arabic Badge (Positioned safely inside to avoid mobile clipping) */}
               <div className="absolute top-4 right-4 z-20 w-[55px] h-[55px] md:w-[65px] md:h-[65px] bg-[#ffc222] rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-500 border-[3px] border-white">
@@ -134,7 +155,7 @@ export default function ServicesShowcase() {
                 </span>
               </div>
 
-              {/* Image Container */}
+              {/* Image Container — stays untouched by the green hover fill */}
               <div className="relative w-full aspect-[4/5] rounded-t-[8rem] md:rounded-t-[10rem] overflow-hidden z-10 bg-gray-100">
                 <div className="absolute inset-0 bg-[#12823b]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 <Image
@@ -148,7 +169,7 @@ export default function ServicesShowcase() {
 
               {/* Text Content */}
               <div className="p-5 md:p-6 pt-5 flex-grow flex flex-col items-center text-center relative z-10">
-                <h3 className="text-xl font-bold text-[#0a1a0f] mb-1.5 group-hover:text-[#12823b] transition-colors duration-300">
+                <h3 className="text-xl font-bold text-[#0a1a0f] mb-1.5 group-hover:text-white transition-colors duration-300">
                   {service.title}
                 </h3>
                 <p className="text-xs md:text-[13px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-[#ffc222] transition-colors duration-300">
@@ -177,16 +198,26 @@ export default function ServicesShowcase() {
               <motion.div
                 key={index}
                 variants={fadeUpItem}
-                className="bg-[#12823b] py-10 md:py-14 px-4 md:px-6 flex flex-col items-center text-center group transition-colors hover:bg-[#0f6c30] relative overflow-hidden"
+                onMouseEnter={handleStatPointer}
+                onMouseMove={handleStatPointer}
+                className="bg-[#12823b] py-10 md:py-14 px-4 md:px-6 flex flex-col items-center text-center group relative overflow-hidden"
               >
                 {/* Subtle Background Pattern */}
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)', backgroundSize: '16px 16px' }}></div>
+
+                {/* Cursor-following fill — grows from wherever the pointer entered/moved */}
+                <div
+                  className="absolute pointer-events-none z-0"
+                  style={{ left: "var(--mx, 50%)", top: "var(--my, 50%)", transform: "translate(-50%, -50%)" }}
+                >
+                  <div className="w-[220px] h-[220px] sm:w-[420px] sm:h-[420px] rounded-full bg-[#0f6c30] scale-0 group-hover:scale-100 transition-transform duration-700 ease-out" />
+                </div>
 
                 <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 rounded-full flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 group-hover:bg-[#ffc222]/20 transition-all duration-500 z-10">
                   <Icon size={28} strokeWidth={1.5} className="text-[#ffc222]" />
                 </div>
 
-                <h4 className="text-4xl md:text-5xl font-extrabold text-white mb-1.5 md:mb-2 tracking-tight group-hover:text-[#ffc222] transition-colors z-10">
+                <h4 className="text-4xl md:text-5xl font-extrabold text-white mb-1.5 md:mb-2 tracking-tight  transition-colors z-10">
                   {stat.count}
                 </h4>
 
@@ -200,23 +231,7 @@ export default function ServicesShowcase() {
 
       </div>
 
-      {/* Marquee Strip (Moved to Bottom & perfectly horizontal) */}
-      <div className="w-full bg-[#12823b] py-3 md:py-4 border-t-4 border-[#ffc222] shadow-[0_-5px_20px_rgba(18,130,59,0.2)]">
-        <div className="animate-strip-seamless w-max">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex items-center tracking-wide text-[#ffc222]">
-              <span className="mx-4 md:mx-6 text-lg md:text-2xl font-serif font-bold leading-none" dir="rtl">
-                رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ
-              </span>
-              <span className="mx-2 md:mx-3 text-white/40 text-xl md:text-2xl leading-none">•</span>
-              <span className="mx-4 md:mx-6 text-sm md:text-lg font-bold text-white tracking-wide leading-none pt-1" dir="rtl">
-                "اے میرے رب! بے شک تو جو بھی بھلائی میری طرف نازل فرمائے، میں اس کا محتاج ہوں۔"
-              </span>
-              <span className="mx-2 md:mx-3 text-white/40 text-xl md:text-2xl leading-none">•</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      
     </section>
   );
 }

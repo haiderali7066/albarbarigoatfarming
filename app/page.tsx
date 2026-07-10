@@ -11,6 +11,9 @@ import PaymentSection from '@/components/home/paymentsection';
 import SupportOrderSection from '@/components/home/Supportform';
 import GoatBlogSection from '@/components/home/blogsection';
 import WhatsAppContactForm from '@/components/home/contactform';
+import AboutUs from '@/components/home/aboutus';
+import AqeeqahCarousel from '@/components/home/carouselbanner';
+import FarmGuidanceMarquee from '@/components/home/farmmarquee';
 
 
 
@@ -69,7 +72,7 @@ export default function Hero() {
     "Pakistan's Trusted Goat Farm",
   ];
   return ( <>
-    <section className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden font-sans pt-24 pb-20">
+    <section className="relative h-[85vh] min-h-[650px] max-h-[900px] mt-20 flex items-center overflow-hidden font-sans pt-24 pb-20">
       
       {/* Background Images Crossfade */}
       {SLIDES_DATA.map((slide, index) => (
@@ -203,11 +206,14 @@ export default function Hero() {
       </div>
       
     </div>
+    <AboutUs/>
     <ServicesShowcase />
     <FeaturedBreeds/>
     <SadqahBanner/>
     <PaymentSection/>
+    <AqeeqahCarousel/>
     <SupportOrderSection/>
+    <FarmGuidanceMarquee/>
     <GoatBlogSection/>
     {/* <WhatsAppContactForm/> */}
 
