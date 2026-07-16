@@ -12,8 +12,9 @@ import SupportOrderSection from '@/components/home/Supportform';
 import GoatBlogSection from '@/components/home/blogsection';
 import WhatsAppContactForm from '@/components/home/contactform';
 import AboutUs from '@/components/home/aboutus';
-import AqeeqahCarousel from '@/components/home/carouselbanner';
-import FarmGuidanceMarquee from '@/components/home/farmmarquee';
+import CardsSection from '@/components/home/4services';
+import CommunityReviews from '@/components/home/reviews';
+
 
 
 
@@ -210,10 +211,10 @@ export default function Hero() {
     <ServicesShowcase />
     <FeaturedBreeds/>
     <SadqahBanner/>
+    <CardsSection/>
     <PaymentSection/>
-    <AqeeqahCarousel/>
     <SupportOrderSection/>
-    <FarmGuidanceMarquee/>
+    <CommunityReviews/>
     <GoatBlogSection/>
     {/* <WhatsAppContactForm/> */}
 

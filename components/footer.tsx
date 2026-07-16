@@ -137,10 +137,7 @@ export default function Footer() {
               <p className="text-gray-300 mb-1">
                 +92 328 0425087
               </p>
-              <div className="mt-2 pt-2 border-t border-white/10">
-                <p className="text-[#ffc222] text-sm font-medium mb-1">Overseas Orders & Payment:</p>
-                <p className="text-gray-300 font-semibold">0327 7666764</p>
-              </div>
+              
             </div>
           </div>
 
@@ -156,12 +153,8 @@ export default function Footer() {
                 <a href="mailto:info@albarbarigoatfarming.com" className="text-gray-300 text-sm hover:text-[#ffc222] transition-colors truncate">
                   info@albarbarigoatfarming.com
                 </a>
-                <a href="mailto:contact@albarbarigoatfarming.com" className="text-gray-300 text-sm hover:text-[#ffc222] transition-colors truncate">
-                  contact@albarbarigoatfarming.com
-                </a>
-                <a href="mailto:ceo@albarbarigoatfarming.com" className="text-gray-300 text-sm hover:text-[#ffc222] transition-colors truncate">
-                  ceo@albarbarigoatfarming.com
-                </a>
+                
+                
               </div>
             </div>
           </div>

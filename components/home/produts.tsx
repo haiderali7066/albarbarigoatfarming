@@ -9,15 +9,11 @@ export default function AvailableStockMinimal() {
   const WHATSAPP_NUMBER = "923280425087";
 
   const goats = [
-    { id: 1, name: "Barbari Bakra", slug: "barbari-bakra", image: "/goats/1.jpeg" },
-    { id: 2, name: "Beetal Bakra", slug: "beetal-bakra", image: "/goats/2.jpeg" },
-    { id: 3, name: "Boer Bakra", slug: "boer-bakra", image: "/goats/3.jpeg" },
-    { id: 4, name: "Rajanpuri Bakra", slug: "rajanpuri-bakra", image: "/goats/4.jpeg" },
-    { id: 5, name: "Makhi Cheeni Bakra", slug: "makhi-cheeni-bakra", image: "/goats/5.jpeg" },
-    { id: 6, name: "Nuqri Bakra", slug: "nuqri-bakra", image: "/goats/6.jpeg" },
-    { id: 7, name: "Teddy Bakra", slug: "teddy-bakra", image: "/goats/1.jpeg" },
-    { id: 8, name: "Nagri Bakra", slug: "nagri-bakra", image: "/goats/2.jpeg" },
-   
+    { id: 1, name: "Barbari Bakra", slug: "barbari-bakra", image: "/bakray/Barbari-Bakra.png" },
+    { id: 2, name: "Beetal Bakra", slug: "beetal-bakra", image: "/bakray/Beetal-Bakra.png" },
+    { id: 3, name: "Boer Bakra", slug: "boer-bakra", image: "/bakray/Boer-Bakra.png" },
+    { id: 4, name: "Rajanpuri Bakra", slug: "rajanpuri-bakra", image: "/bakray/Rajanpuri-Bakra.png" },
+
   ];
 
   const containerVariants: Variants = {

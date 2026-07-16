@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/dist/client/link';
 
 export default function SadqahBanner() {
   // High-quality online image relevant to the Islamic/Sadqah theme
@@ -114,10 +115,9 @@ export default function SadqahBanner() {
                 Healthy Goats Available
               </div>
 
-              {/* Yellow Donate/Book Button */}
-              <button className="bg-[#ffc222] hover:bg-[#e5ae1e] text-[#0a1a0f] font-bold text-[15px] py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+              {/* Yellow Donate/Book Button */} <Link href="/contact"><button className="bg-[#ffc222] hover:bg-[#e5ae1e] text-[#0a1a0f] font-bold text-[15px] py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
                 Book Sadqah Now
-              </button>
+              </button></Link>
             </div>
 
           </div>

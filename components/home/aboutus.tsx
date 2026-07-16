@@ -39,7 +39,7 @@ export default function AboutUs() {
           {/* LEFT COLUMN: Text Content */}
           <div className="flex flex-col">
             <p className="text-gray-500 text-base md:text-[17px] leading-relaxed mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipisc sed do eiusmod tempor incididunt ut labore etedum dolor sit a ad minim veniam, quis nostr incididunt ut laborcitationn tempor incididunt ut labore um dolor sit amet, consectetur adipisc sed do eiu agna a liqua. Ut enim ad minim veniam, quis nostr incididunt ut laborcitation.
+              Al-Barbari Goat Farming is a family-owned and operated farm with a rich history of breeding and raising high-quality Barbari goats. Our farm has been dedicated to providing premium livestock for generations, ensuring that each goat is healthy, well-cared for, and meets the highest standards of quality. We take pride in our commitment to ethical farming practices and our passion for preserving the Barbari breed.
             </p>
 
             {/* Bulleted List */}
@@ -89,7 +89,7 @@ export default function AboutUs() {
             {/* Secondary U-Shape Image (Left side bottom, rounded bottom) */}
             <div className="absolute left-0 bottom-0 w-[55%] h-[55%] rounded-b-[999px] overflow-hidden z-20 border-[12px] border-white shadow-xl bg-gray-200">
               <img 
-                src="/goats/7.jpeg" 
+                src="/bakray/Desi-Bakra.png" 
                 alt="Detailed Goat View" 
                 className="w-full h-full object-cover"
               />

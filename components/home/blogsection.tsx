@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/dist/client/link';
 import React from 'react';
 
 // Sample blog data tailored for Al-Barbari Goat Farming
@@ -10,7 +11,7 @@ const blogPosts = [
     monthYear: "July 2026",
     title: "The Importance of Purebred Barbari Goats",
     excerpt: "Discover why the Barbari breed is highly valued for its exceptional meat quality, rapid growth rate, and perfect adaptability to the local climate of Punjab.",
-    image: "/goats/1.jpeg", 
+    image: "/bakray/Nagri-Bakra.png", 
   },
   {
     id: 2,
@@ -18,7 +19,7 @@ const blogPosts = [
     monthYear: "July 2026",
     title: "Preparing Your Sadqah & Aqeeqah With Us",
     excerpt: "A complete guide on how our farm ensures 100% Shariah-compliant preparation, humane slaughtering, and transparent distribution of your religious sacrifices.",
-    image: "/goats/1.jpeg",
+    image: "/bakray/Nuqri-Bakra.png",
   },
   {
     id: 3,
@@ -26,7 +27,7 @@ const blogPosts = [
     monthYear: "June 2026",
     title: "Farm-to-Table: Our Premium Meat Promise",
     excerpt: "Learn about our organic feeding practices, routine medical screenings, and spacious farm environments that guarantee healthy livestock and premium quality meat.",
-    image: "/goats/1.jpeg",
+    image: "/bakray/Boer-Bakra.png",
   }
 ];
 
@@ -100,10 +101,10 @@ export default function BlogSection() {
                 </p>
 
                 {/* Button pinned to bottom */}
-                <div className="mt-auto">
+                <div className="mt-auto"> <Link href={'/blog'}>
                   <button className="bg-[#ffc222] text-[#0a1a0f] font-bold text-sm px-9 py-3.5 rounded-full hover:bg-[#12823b] hover:text-white transition-all duration-300">
                     Read More
-                  </button>
+                  </button></Link>
                 </div>
               </div>
 

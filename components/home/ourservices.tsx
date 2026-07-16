@@ -7,47 +7,47 @@ import { Leaf, Baby, HandHeart, Award } from "lucide-react";
 
 const services = [
   {
-    title: "Aqiqa",
+    title: "Aqeeqah",
     subtitle: "( Sunnah for Child )",
     image:
-      "https://images.unsplash.com/photo-1532633378163-24c2c0da3c99?q=80&w=1074&auto=format&fit=crop",
+      "/bakray/Nuqri-Bakra.png",
     badge: "عقيقة",
   },
   {
     title: "Sadqa & Charity",
     subtitle: "( Giving Alms )",
     image:
-      "https://images.unsplash.com/photo-1529864539815-de90220aedfb?q=80&w=1469&auto=format&fit=crop",
+      "/bakray/Nagri-Bakra.png",
     badge: "صدقة",
   },
   {
     title: "Eid Qurbani",
     subtitle: "( Annual Sacrifice )",
     image:
-      "https://images.unsplash.com/photo-1622837699015-9a4cb8b7a94b?q=80&w=1470&auto=format&fit=crop",
+      "/bakray/Boer-Bakra.png",
     badge: "أضحية",
   },
   {
     title: "Albarbari Selection",
     subtitle: "( Premium Stock )",
     image:
-      "https://images.unsplash.com/photo-1557431177-d277c24390e5?q=80&w=687&auto=format&fit=crop",
+      "/bakray/Nuqri-Bakra.png",
     badge: "أفضل",
   },
   {
     title: "Delivery & Slaughter",
     subtitle: "( Complete Service )",
     image:
-      "https://images.unsplash.com/photo-1604076150017-48b528308aa3?q=80&w=735&auto=format&fit=crop",
+      "/bakray/Nagri-Bakra.png",
     badge: "توصيل",
   },
 ];
 
 const stats = [
   { count: "1000+", label: "Active Herd Count", icon: Leaf },
-  { count: "150+", label: "Aqiqa Completed", icon: Baby },
-  { count: "5k+", label: "Sadqa Served", icon: HandHeart },
-  { count: "12+", label: "Master Shepherds", icon: Award },
+  { count: "1500+", label: "Aqiqa Completed", icon: Baby },
+  { count: "4000+", label: "Sadqa Served", icon: HandHeart },
+  { count: "22+", label: "Master Shepherds", icon: Award },
 ];
 
 // --- Animation Variants ---
