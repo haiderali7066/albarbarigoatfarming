@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { 
   FaHeart, 
   FaTimes, 
@@ -57,13 +57,13 @@ export default function ServicesSection() {
     closeModal();
   };
 
-  // Enhanced Framer Motion Variants
-  const staggerContainer = {
+  // Enhanced Framer Motion Variants (Explicitly Typed)
+  const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
   };
 
-  const fadeUpSpring = {
+  const fadeUpSpring: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: { 
       opacity: 1, 
@@ -72,12 +72,12 @@ export default function ServicesSection() {
     }
   };
 
-  const modalOverlay = {
+  const modalOverlay: Variants = {
     hidden: { opacity: 0, backdropFilter: "blur(0px)" },
     visible: { opacity: 1, backdropFilter: "blur(8px)", transition: { duration: 0.4 } }
   };
 
-  const modalContent = {
+  const modalContent: Variants = {
     hidden: { opacity: 0, scale: 0.8, y: 40 },
     visible: { 
       opacity: 1, 
@@ -205,18 +205,18 @@ export default function ServicesSection() {
                 </p>
                 
                 {/* Fully Rounded Button with Fixed Color Transitions */}
-<button 
-  className="mt-auto relative w-full overflow-hidden flex items-center justify-center py-4 px-6 rounded-full bg-[#f8faf9] border border-gray-200 transition-all duration-300 group/btn hover:border-transparent hover:shadow-[0_12px_24px_rgba(18,130,59,0.15)]"
->
-  {/* Elegant Sliding Background Layer */}
-  <div className="absolute inset-0 bg-[#12823b] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
-  
-  {/* Button Text and Icon Content */}
-  <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-sm text-[#0a1a0f] group-hover/btn:text-white transition-colors duration-300 uppercase tracking-wide">
-    {service.btnText}
-    <FaArrowRight className="text-[#12823b] group-hover/btn:text-[#ffc222] transform group-hover/btn:translate-x-1 transition-all duration-300" />
-  </span>
-</button>
+                <button 
+                  className="mt-auto relative w-full overflow-hidden flex items-center justify-center py-4 px-6 rounded-full bg-[#f8faf9] border border-gray-200 transition-all duration-300 group/btn hover:border-transparent hover:shadow-[0_12px_24px_rgba(18,130,59,0.15)]"
+                >
+                  {/* Elegant Sliding Background Layer */}
+                  <div className="absolute inset-0 bg-[#12823b] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+                  
+                  {/* Button Text and Icon Content */}
+                  <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-sm text-[#0a1a0f] group-hover/btn:text-white transition-colors duration-300 uppercase tracking-wide">
+                    {service.btnText}
+                    <FaArrowRight className="text-[#12823b] group-hover/btn:text-[#ffc222] transform group-hover/btn:translate-x-1 transition-all duration-300" />
+                  </span>
+                </button>
               </div>
             </motion.div>
           ))}
