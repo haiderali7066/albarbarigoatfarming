@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { 
   FaLeaf, 
   FaQuoteLeft, 
@@ -34,23 +34,23 @@ export default function CeoMessagePage() {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
   };
 
-  // Framer Motion Animation Variants
-  const fadeInUp = {
+  // Framer Motion Animation Variants (Explicitly typed to fix the build error)
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
-  const slideInLeft = {
+  const slideInLeft: Variants = {
     hidden: { opacity: 0, x: -60 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
-  const slideInRight = {
+  const slideInRight: Variants = {
     hidden: { opacity: 0, x: 60 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
-  const staggerContainer = {
+  const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
