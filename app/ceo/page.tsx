@@ -140,6 +140,7 @@ export default function CeoMessagePage() {
             
             <motion.p variants={fadeInUp} className="text-gray-200 text-lg md:text-xl leading-relaxed font-medium max-w-2xl text-opacity-90">
               Our guiding principles, our dedication to the nation, and our solemn promise to always put your trust above all else.
+              ceo@albarbarigoatfarming.com
             </motion.p>
           </motion.div>
         </section>

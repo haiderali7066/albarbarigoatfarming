@@ -119,7 +119,7 @@ export default function AvailableStockMinimal() {
 
                   <div className="mt-auto pt-5 border-t border-gray-100/80 flex items-center justify-between">
                     <Link
-                      href={`/products/${goat.slug}`}
+                      href="/bakray"
                       className="flex items-center gap-2 text-[11px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-[#12823b] transition-colors duration-300"
                     >
                       View Details

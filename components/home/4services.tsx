@@ -94,32 +94,28 @@ export default function ServicesSection() {
       id: "sadqah",
       title: "Sadqah Processing",
       icon: FaHeart,
-      desc: "Fulfill religious obligations with our healthy, Shariah-compliant goats. We handle slaughtering with absolute transparency.",
-      image: "/bakray/Barbari-Bakra.png",
+      image: "/bakray/Sadqah.png",
       btnText: "Offer Sadqah"
     },
     {
       id: "aqeeqa",
       title: "Aqeeqa Services",
       icon: FaChild,
-      desc: "Celebrate your newborn with our premium service. We provide flawless animals meeting all Islamic criteria for your special day.",
-      image: "/bakray/Nagri-Bakra.png",
+      image: "/bakray/Aqeeqah.png",
       btnText: "Book Aqeeqa"
     },
     {
       id: "healthy-bakra",
       title: "Premium Healthy Bakra",
       icon: GiGoat,
-      desc: "Purchase majestic, purebred Al-Barbari goats raised on organic feed in our state-of-the-art facilities. Perfect for farming.",
-      image: "/bakray/Boer-Bakra.png",
+      image: "/bakray/Healthy.png",
       btnText: "Select Bakra"
     },
     {
       id: "donation",
       title: "Charity & Donation",
       icon: FaHandHoldingHeart,
-      desc: "Contribute to ongoing meat distribution drives for the underprivileged. Your donations are utilized strictly for community welfare.",
-      image: "/bakray/Beetal-Bakra.png",
+      image: "/bakray/Donation.png",
       btnText: "Donate Now"
     }
   ];
@@ -187,37 +183,29 @@ export default function ServicesSection() {
                   <service.icon size={30} />
                 </div>
 
-                {/* Tag Overlay */}
-                <div className="absolute bottom-6 left-6 z-20">
-                  <span className="bg-[#12823b] text-white text-[10px] font-black tracking-widest uppercase px-4 py-2 rounded-full shadow-lg">
-                    {index === 3 ? "Community" : "Premium"}
-                  </span>
-                </div>
+               
               </div>
 
               {/* Card Body */}
-              <div className="p-8 flex flex-col flex-grow relative bg-white">
-                <h3 className="text-2xl font-serif font-bold text-[#0a1a0f] mb-4 group-hover:text-[#12823b] transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-gray-500 text-base leading-relaxed mb-8 flex-grow">
-                  {service.desc}
-                </p>
-                
-                {/* Fully Rounded Button with Fixed Color Transitions */}
-                <button 
-                  className="mt-auto relative w-full overflow-hidden flex items-center justify-center py-4 px-6 rounded-full bg-[#f8faf9] border border-gray-200 transition-all duration-300 group/btn hover:border-transparent hover:shadow-[0_12px_24px_rgba(18,130,59,0.15)]"
-                >
-                  {/* Elegant Sliding Background Layer */}
-                  <div className="absolute inset-0 bg-[#12823b] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
-                  
-                  {/* Button Text and Icon Content */}
-                  <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-sm text-[#0a1a0f] group-hover/btn:text-white transition-colors duration-300 uppercase tracking-wide">
-                    {service.btnText}
-                    <FaArrowRight className="text-[#12823b] group-hover/btn:text-[#ffc222] transform group-hover/btn:translate-x-1 transition-all duration-300" />
-                  </span>
-                </button>
-              </div>
+              <div className="p-8 flex flex-col flex-grow relative bg-[#12823b]">
+  <h3 className="text-2xl font-serif font-bold text-white mb-4 group-hover:text-[#ffc222] transition-colors">
+    {service.title}
+  </h3>
+  
+  {/* Fully Rounded Button with Fixed Color Transitions */}
+  <button 
+    className="mt-auto relative w-full overflow-hidden flex items-center justify-center py-4 px-6 rounded-full bg-white border-2 border-white transition-all duration-300 group/btn hover:border-[#ffc222] hover:shadow-[0_12px_24px_rgba(255,194,34,0.2)]"
+  >
+    {/* Elegant Sliding Background Layer (Yellow) */}
+    <div className="absolute inset-0 bg-[#ffc222] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ease-out z-0"></div>
+    
+    {/* Button Text and Icon Content */}
+    <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-sm text-[#12823b] group-hover/btn:text-[#0a1a0f] transition-colors duration-300 uppercase tracking-wide">
+      {service.btnText}
+      <FaArrowRight className="text-[#12823b] group-hover/btn:text-[#0a1a0f] transform group-hover/btn:translate-x-1 transition-all duration-300" />
+    </span>
+  </button>
+</div>
             </motion.div>
           ))}
         </motion.div>

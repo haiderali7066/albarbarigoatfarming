@@ -38,6 +38,7 @@ const MOBILE_NAV_LINKS: NavLink[] = [
   { name: 'Aqeeqah / Sadqa', path: '/aqeeqah-sadqa', highlight: true },
   { name: 'Blog', path: '/blog' },
   { name: 'About Us', path: '/about' },
+  { name: 'Contact Us', path: '/contact' },
 ];
 
 const Header: React.FC = () => {

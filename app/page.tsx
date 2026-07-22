@@ -14,6 +14,7 @@ import WhatsAppContactForm from '@/components/home/contactform';
 import AboutUs from '@/components/home/aboutus';
 import CardsSection from '@/components/home/4services';
 import CommunityReviews from '@/components/home/reviews';
+import DeliveryAreasSection from '@/components/home/DeliveryAreasSection';
 
 
 
@@ -207,12 +208,13 @@ export default function Hero() {
       </div>
       
     </div>
+    <CardsSection/>
     <AboutUs/>
     <ServicesShowcase />
     <FeaturedBreeds/>
     <SadqahBanner/>
-    <CardsSection/>
     <PaymentSection/>
+    <DeliveryAreasSection/>
     <SupportOrderSection/>
     <CommunityReviews/>
     <GoatBlogSection/>

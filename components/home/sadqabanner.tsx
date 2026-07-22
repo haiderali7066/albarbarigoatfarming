@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/dist/client/link';
+import Link from 'next/link';
 
 export default function SadqahBanner() {
   // High-quality online image relevant to the Islamic/Sadqah theme

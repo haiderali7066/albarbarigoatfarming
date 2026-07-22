@@ -34,10 +34,10 @@ export default function Footer() {
 
               <div>
                 <h2 className="text-3xl font-bold text-white">
-                  Al Barbari
+                  AL Barbari
                 </h2>
                 <p className="text-[#ffc222] tracking-[3px] uppercase text-sm font-semibold mt-1">
-                  Premium Goat Farm
+                   Goat Farming
                 </p>
               </div>
             </div>
