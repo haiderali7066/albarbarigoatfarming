@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+function getMongoDBURI(): string {
+  const uri = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error("❌ MONGODB_URI is not defined in environment variables.");
+  if (!uri) {
+    throw new Error(
+      "❌ MONGODB_URI is not defined in environment variables."
+    );
+  }
+
+  return uri;
 }
 
 export async function connectDB() {
   try {
-    // Already connected
     if (mongoose.connection.readyState === 1) {
       console.log("🟢 MongoDB: Already connected");
       return;
     }
 
-    // Connecting
     if (mongoose.connection.readyState === 2) {
       console.log("🟡 MongoDB: Connection in progress...");
       return;
@@ -22,8 +26,10 @@ export async function connectDB() {
 
     console.log("🔄 MongoDB: Connecting...");
 
+    const MONGODB_URI = getMongoDBURI();
+
     await mongoose.connect(MONGODB_URI, {
-      dbName: "aistblogs", // Optional if already included in URI
+      dbName: "aistblogs",
     });
 
     console.log("✅ MongoDB Connected Successfully!");
@@ -33,6 +39,6 @@ export async function connectDB() {
     console.error("❌ MongoDB Connection Failed!");
     console.error(error);
 
-    process.exit(1);
+    throw error;
   }
 }
