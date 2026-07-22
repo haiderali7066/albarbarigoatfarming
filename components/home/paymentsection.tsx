@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   FaShieldAlt,
@@ -9,74 +10,72 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
+// 1. Move static data OUTSIDE the component to prevent re-initialization on every render
+const paymentMethods = [
+  {
+    id: 1,
+    title: "Bank Transfer",
+    desc: "Direct online transfer to our official Meezan / HBL business accounts.",
+    logoUrl: "https://img.icons8.com/color/96/bank-building.png",
+    tag: "Preferred",
+  },
+  {
+    id: 2,
+    title: "Credit / Debit Card",
+    desc: "We accept Visa and Mastercard for seamless online checkout.",
+    logoUrl: "https://cdn.simpleicons.org/visa/1434CB",
+    logoUrl2: "https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg",
+    tag: "Global",
+  },
+  {
+    id: 3,
+    title: "Easypaisa",
+    desc: "Quick, local, and secure mobile wallet transfers via the Easypaisa app.",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzMk7W6ne09A91fWqZG62MBQKGkwSd8z_ofOBBOjYxTA&s=10",
+    tag: "Instant",
+  },
+  {
+    id: 4,
+    title: "JazzCash",
+    desc: "Instant digital payments directly to our official JazzCash merchant number.",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw--utIGcp34Q3aJEALUoV5KT-0u_IQEjOvh0IUv7WaA&s=10",
+    tag: "Instant",
+  },
+  {
+    id: 5,
+    title: "Cash on Delivery",
+    desc: "Pay securely in cash upon doorstep delivery or farm pickup.",
+    logoUrl: "https://img.icons8.com/color/96/cash-in-hand.png",
+    tag: "Local Only",
+  },
+  {
+    id: 6,
+    title: "100% Secure",
+    desc: "Every transaction is verified and backed by an official Al-Barbari receipt.",
+    logoUrl: "https://img.icons8.com/color/96/shield.png",
+    tag: "Verified",
+  },
+];
+
+// 2. Move Variants OUTSIDE to keep references stable for staggered animations
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
 export default function PaymentSection() {
-  const paymentMethods = [
-    {
-      id: 1,
-      title: "Bank Transfer",
-      desc: "Direct online transfer to our official Meezan / HBL business accounts.",
-      logoUrl: "https://img.icons8.com/color/96/bank-building.png",
-      tag: "Preferred",
-    },
-    {
-      id: 2,
-      title: "Credit / Debit Card",
-      desc: "We accept Visa and Mastercard for seamless online checkout.",
-      logoUrl: "https://cdn.simpleicons.org/visa/1434CB",
-      logoUrl2:
-        "https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg",
-      tag: "Global",
-    },
-    {
-      id: 3,
-      title: "Easypaisa",
-      desc: "Quick, local, and secure mobile wallet transfers via the Easypaisa app.",
-      logoUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzMk7W6ne09A91fWqZG62MBQKGkwSd8z_ofOBBOjYxTA&s=10",
-      tag: "Instant",
-    },
-    {
-      id: 4,
-      title: "JazzCash",
-      desc: "Instant digital payments directly to our official JazzCash merchant number.",
-      logoUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw--utIGcp34Q3aJEALUoV5KT-0u_IQEjOvh0IUv7WaA&s=10",
-      tag: "Instant",
-    },
-    {
-      id: 5,
-      title: "Cash on Delivery",
-      desc: "Pay securely in cash upon doorstep delivery or farm pickup.",
-      logoUrl: "https://img.icons8.com/color/96/cash-in-hand.png",
-      tag: "Local Only",
-    },
-    {
-      id: 6,
-      title: "100% Secure",
-      desc: "Every transaction is verified and backed by an official Al-Barbari receipt.",
-      logoUrl: "https://img.icons8.com/color/96/shield.png",
-      tag: "Verified",
-    },
-  ];
-
-  // Framer Motion Animation Variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
-
   return (
     <section className="bg-[#f8faf9] py-24 font-sans relative overflow-hidden">
       {/* Subtle Background Elements */}
@@ -92,8 +91,7 @@ export default function PaymentSection() {
             viewport={{ once: true }}
             className="bg-white border border-[#12823b]/20 shadow-sm text-[#12823b] font-bold tracking-widest uppercase text-xs px-5 py-2.5 rounded-full mb-6 flex items-center gap-2"
           >
-            <FaShieldAlt className="text-[#ffc222] text-sm" /> Safe &
-            Transparent
+            <FaShieldAlt className="text-[#ffc222] text-sm" /> Safe & Transparent
           </motion.div>
 
           <motion.h2
@@ -135,21 +133,27 @@ export default function PaymentSection() {
                 {method.tag}
               </div>
 
-              {/* Logo / Image Container - White background to ensure brand logos pop */}
+              {/* Logo / Image Container */}
               <div className="h-16 flex items-center gap-3 mb-6 relative z-10">
                 <div className="bg-white p-2.5 rounded-xl h-full flex items-center justify-center shadow-inner group-hover:-translate-y-1 transition-transform duration-300">
-                  <img
+                  <Image
                     src={method.logoUrl}
                     alt={method.title}
+                    width={80}
+                    height={64}
+                    unoptimized // Bypasses the need for next.config.js remote pattern setup
                     className="h-full w-auto object-contain max-w-[80px]"
                   />
                 </div>
                 {/* Secondary Logo (for Visa/Mastercard combo) */}
                 {method.logoUrl2 && (
                   <div className="bg-white p-2.5 rounded-xl h-full flex items-center justify-center shadow-inner group-hover:-translate-y-1 transition-transform duration-300 delay-75">
-                    <img
+                    <Image
                       src={method.logoUrl2}
                       alt="Secondary Payment Logo"
+                      width={80}
+                      height={64}
+                      unoptimized
                       className="h-full w-auto object-contain max-w-[80px]"
                     />
                   </div>
@@ -174,39 +178,40 @@ export default function PaymentSection() {
         </motion.div>
 
         {/* Overseas Orders Call-to-Action Banner */}
-        <motion.div 
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: 0.3 }}
-  className="mt-16 bg-[#ffc222] rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden border border-yellow-400"
->
-  {/* Decorative Pattern inside Banner */}
-  <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] mix-blend-overlay"></div>
-  
-  <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6">
-    <div className="w-16 h-16 bg-[#12823b] rounded-2xl flex items-center justify-center text-white shadow-md shrink-0">
-      <FaGlobe size={32} />
-    </div>
-    <div>
-      <h4 className="text-2xl font-serif font-bold text-[#0a1a0f] mb-2">
-        Overseas / International Orders
-      </h4>
-      <p className="text-[#0a1a0f]/80 text-sm md:text-base max-w-xl font-medium">
-        Purchasing from abroad? We have dedicated payment channels for overseas clients. Contact us directly for special assistance.
-      </p>
-    </div>
-  </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-16 bg-[#ffc222] rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden border border-yellow-400"
+        >
+          {/* Decorative Pattern inside Banner */}
+          <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] mix-blend-overlay"></div>
 
-  {/* Contact Button */}
-  <a 
-    href="tel:+923277666764" 
-    className="relative z-10 whitespace-nowrap flex items-center gap-3 bg-[#12823b] text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-white hover:text-[#12823b] transition-all duration-300 shadow-md group"
-  >
-    <FaPhoneAlt className="text-white group-hover:text-[#12823b] transition-colors" />
-    0327 7666764
-  </a>
-</motion.div>
+          <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6">
+            <div className="w-16 h-16 bg-[#12823b] rounded-2xl flex items-center justify-center text-white shadow-md shrink-0">
+              <FaGlobe size={32} />
+            </div>
+            <div>
+              <h4 className="text-2xl font-serif font-bold text-[#0a1a0f] mb-2">
+                Overseas / International Orders
+              </h4>
+              <p className="text-[#0a1a0f]/80 text-sm md:text-base max-w-xl font-medium">
+                Purchasing from abroad? We have dedicated payment channels for
+                overseas clients. Contact us directly for special assistance.
+              </p>
+            </div>
+          </div>
+
+          {/* Contact Button */}
+          <a
+            href="tel:+923277666764"
+            className="relative z-10 whitespace-nowrap flex items-center gap-3 bg-[#12823b] text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-white hover:text-[#12823b] transition-all duration-300 shadow-md group"
+          >
+            <FaPhoneAlt className="text-white group-hover:text-[#12823b] transition-colors" />
+            0327 7666764
+          </a>
+        </motion.div>
       </div>
     </section>
   );
