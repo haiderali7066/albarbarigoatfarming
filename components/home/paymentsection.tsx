@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import {
   FaShieldAlt,
   FaCheckCircle,
@@ -10,72 +9,75 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
-// 1. Move static data OUTSIDE the component to prevent re-initialization on every render
-const paymentMethods = [
-  {
-    id: 1,
-    title: "Bank Transfer",
-    desc: "Direct online transfer to our official Meezan / HBL business accounts.",
-    logoUrl: "https://img.icons8.com/color/96/bank-building.png",
-    tag: "Preferred",
-  },
-  {
-    id: 2,
-    title: "Credit / Debit Card",
-    desc: "We accept Visa and Mastercard for seamless online checkout.",
-    logoUrl: "https://cdn.simpleicons.org/visa/1434CB",
-    logoUrl2: "https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg",
-    tag: "Global",
-  },
-  {
-    id: 3,
-    title: "Easypaisa",
-    desc: "Quick, local, and secure mobile wallet transfers via the Easypaisa app.",
-    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzMk7W6ne09A91fWqZG62MBQKGkwSd8z_ofOBBOjYxTA&s=10",
-    tag: "Instant",
-  },
-  {
-    id: 4,
-    title: "JazzCash",
-    desc: "Instant digital payments directly to our official JazzCash merchant number.",
-    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw--utIGcp34Q3aJEALUoV5KT-0u_IQEjOvh0IUv7WaA&s=10",
-    tag: "Instant",
-  },
-  {
-    id: 5,
-    title: "Cash on Delivery",
-    desc: "Pay securely in cash upon doorstep delivery or farm pickup.",
-    logoUrl: "https://img.icons8.com/color/96/cash-in-hand.png",
-    tag: "Local Only",
-  },
-  {
-    id: 6,
-    title: "100% Secure",
-    desc: "Every transaction is verified and backed by an official Al-Barbari receipt.",
-    logoUrl: "https://img.icons8.com/color/96/shield.png",
-    tag: "Verified",
-  },
-];
-
-// 2. Move Variants OUTSIDE to keep references stable for staggered animations
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
 export default function PaymentSection() {
+  const paymentMethods = [
+    {
+      id: 1,
+      title: "Bank Transfer",
+      desc: "Direct online transfer to our official Meezan / HBL business accounts.",
+      logoUrl: "https://img.icons8.com/color/96/bank-building.png",
+      tag: "Preferred",
+    },
+    {
+      id: 2,
+      title: "Credit / Debit Card",
+      desc: "We accept Visa and Mastercard for seamless online checkout.",
+      logoUrl: "https://cdn.simpleicons.org/visa/1434CB",
+      logoUrl2:
+        "https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg",
+      tag: "Global",
+    },
+    {
+      id: 3,
+      title: "Easypaisa",
+      desc: "Quick, local, and secure mobile wallet transfers via the Easypaisa app.",
+      logoUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzMk7W6ne09A91fWqZG62MBQKGkwSd8z_ofOBBOjYxTA&s=10",
+      tag: "Instant",
+    },
+    {
+      id: 4,
+      title: "JazzCash",
+      desc: "Instant digital payments directly to our official JazzCash merchant number.",
+      logoUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw--utIGcp34Q3aJEALUoV5KT-0u_IQEjOvh0IUv7WaA&s=10",
+      tag: "Instant",
+    },
+    {
+      id: 5,
+      title: "Cash on Delivery",
+      desc: "Pay securely in cash upon doorstep delivery or farm pickup.",
+      logoUrl: "https://img.icons8.com/color/96/cash-in-hand.png",
+      tag: "Local Only",
+    },
+    {
+      id: 6,
+      title: "100% Secure",
+      desc: "Every transaction is verified and backed by an official Al-Barbari receipt.",
+      logoUrl: "https://img.icons8.com/color/96/shield.png",
+      tag: "Verified",
+    },
+  ];
+
+  // ✅ Fix applied: Explicitly typed as `Variants` to prevent TS string widening issues
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  // ✅ Fix applied: Explicitly typed as `Variants`
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
     <section className="bg-[#f8faf9] py-24 font-sans relative overflow-hidden">
       {/* Subtle Background Elements */}
@@ -133,27 +135,21 @@ export default function PaymentSection() {
                 {method.tag}
               </div>
 
-              {/* Logo / Image Container */}
+              {/* Logo / Image Container - White background to ensure brand logos pop */}
               <div className="h-16 flex items-center gap-3 mb-6 relative z-10">
                 <div className="bg-white p-2.5 rounded-xl h-full flex items-center justify-center shadow-inner group-hover:-translate-y-1 transition-transform duration-300">
-                  <Image
+                  <img
                     src={method.logoUrl}
                     alt={method.title}
-                    width={80}
-                    height={64}
-                    unoptimized // Bypasses the need for next.config.js remote pattern setup
                     className="h-full w-auto object-contain max-w-[80px]"
                   />
                 </div>
                 {/* Secondary Logo (for Visa/Mastercard combo) */}
                 {method.logoUrl2 && (
                   <div className="bg-white p-2.5 rounded-xl h-full flex items-center justify-center shadow-inner group-hover:-translate-y-1 transition-transform duration-300 delay-75">
-                    <Image
+                    <img
                       src={method.logoUrl2}
                       alt="Secondary Payment Logo"
-                      width={80}
-                      height={64}
-                      unoptimized
                       className="h-full w-auto object-contain max-w-[80px]"
                     />
                   </div>
