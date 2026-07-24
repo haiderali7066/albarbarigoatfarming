@@ -76,105 +76,115 @@ export default function Hero() {
   return ( <>
     <section className="relative h-[85vh] min-h-[650px] max-h-[900px] mt-20 flex items-center overflow-hidden font-sans pt-24 pb-20">
       
-      {/* Background Images Crossfade */}
-      {SLIDES_DATA.map((slide, index) => (
-        <div 
-          key={index}
-          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out ${
-            currentSlide === index ? 'opacity-100 scale-105 z-0' : 'opacity-0 scale-100 -z-10'
-          }`}
-          style={{ backgroundImage: `url('${slide.image}')` }} 
-        />
-      ))}
+  {/* Background Images Smooth Slide & Crossfade */}
+  {SLIDES_DATA.map((slide, index) => (
+    <div 
+      key={index}
+      className={`absolute inset-0 bg-cover bg-center bg-no-repeat transform-gpu will-change-[transform,opacity] transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+        currentSlide === index 
+          ? 'opacity-100 translate-x-0 scale-100 z-0' 
+          : 'opacity-0 translate-x-12 scale-105 -z-10'
+      }`}
+      style={{ backgroundImage: `url('${slide.image}')` }} 
+    />
+  ))}
+  
+  {/* Readability Overlays */}
+  <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#050d08] via-[#0a1a0f]/80 to-transparent opacity-90 z-10 pointer-events-none" />
+  <div className="absolute inset-0 bg-black/10 z-10 pointer-events-none" />
+
+  {/* Main Content Container */}
+  <div className="relative z-20 w-full max-w-[1920px] mx-auto px-5 md:px-12 lg:px-24">
+    <div className="max-w-[800px] flex flex-col">
       
-      {/* Readability Overlays */}
-      <div className="absolute opacity-60 inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#0a1a0f]/95 via-[#0a1a0f]/80 to-transparent z-10" />
-      {/* <div className="absolute inset-0 bg-black/20 z-10" /> */}
-
-      {/* Main Content Container */}
-      <div className="relative z-20 w-full max-w-[1920px] mx-auto px-5 md:px-12 lg:px-24">
-        <div className="max-w-[800px] flex flex-col">
-          
-          {/* Animated Text Wrapper: Fixed heights stop layout shifting entirely */}
-          <div className="relative min-h-[380px] sm:min-h-[320px] md:min-h-[340px] w-full">
-            {SLIDES_DATA.map((slide, index) => {
-              const isActive = currentSlide === index;
-              return (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
-                    isActive 
-                      ? 'opacity-100 translate-y-0 pointer-events-auto z-20' 
-                      : 'opacity-0 translate-y-6 pointer-events-none z-10'
-                  }`}
-                >
-                  {/* Subheading */}
-                  <div className="mb-4 md:mb-6 inline-flex flex-col">
-                    <span className="text-white text-base md:text-[20px] font-semibold tracking-wide uppercase">
-                      {slide.subheading}
-                    </span>
-                    <div className="h-[2px] w-24 bg-[#ffc222] mt-2" />
-                  </div>
-
-                  {/* Main Heading */}
-                  <h1 className="text-white font-bold leading-[1.15] text-4xl sm:text-6xl md:text-[75px] tracking-tight mb-4">
-                    {slide.titlePrimary} <br/>
-                    <span className="text-[#ffc222] font-serif italic pr-4">
-                      {slide.titleSecondary}
-                    </span>
-                  </h1>
-
-                  {/* Description */}
-                  <p className="text-gray-300 text-base md:text-lg max-w-[600px] mb-4 leading-relaxed">
-                    {slide.description}
-                  </p>
-
-                  {/* Features List */}
-                  {slide.features.length > 0 && (
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                      {slide.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-white text-sm md:text-base">
-                          <FaCheckCircle className="text-[#ffc222] mr-2 shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Completely Static CTA Button - Unaffected by transitions */}
-          <div className="mt-6 md:mt-8">
-            <button className="group flex items-center gap-4 md:gap-6 bg-[#1a5a1f] rounded-full pl-6 md:pl-8 pr-2 py-2 hover:bg-[#124216] transition-all duration-300 shadow-xl w-fit">
-              <span className="text-white font-bold text-[15px] md:text-[17px]">Order Online Now</span>
-              <div className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-[#ffc222] flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shrink-0">
-                <FaArrowRight className="text-[#0a1a0f] text-sm md:text-base" />
+      {/* Animated Text Wrapper */}
+      <div className="relative min-h-[420px] sm:min-h-[340px] md:min-h-[360px] w-full">
+        {SLIDES_DATA.map((slide, index) => {
+          const isActive = currentSlide === index;
+          return (
+            <div
+              key={index}
+              className={`absolute inset-0 transform-gpu will-change-[transform,opacity] transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                isActive 
+                  ? 'opacity-100 translate-y-0 pointer-events-auto z-20' 
+                  : 'opacity-0 translate-y-8 pointer-events-none z-10'
+              }`}
+            >
+              {/* Subheading */}
+              <div className="mb-4 md:mb-6 inline-flex flex-col">
+                <span className="text-white/90 text-sm md:text-[18px] font-bold tracking-[0.2em] uppercase drop-shadow-md">
+                  {slide.subheading}
+                </span>
+                <div className="h-[3px] w-16 md:w-24 bg-[#ffc222] mt-3 rounded-full" />
               </div>
-            </button>
+
+              {/* Main Heading */}
+              <h1 className="text-white font-extrabold leading-[1.1] text-4xl sm:text-6xl md:text-[75px] tracking-tight mb-5 drop-shadow-lg">
+                {slide.titlePrimary} <br className="hidden sm:block" />
+                <span className="text-[#ffc222] font-serif italic pr-4">
+                  {slide.titleSecondary}
+                </span>
+              </h1>
+
+              {/* Description */}
+              <p className="text-gray-200 text-base md:text-lg max-w-[600px] mb-6 leading-relaxed drop-shadow-md font-medium">
+                {slide.description}
+              </p>
+
+              {/* Features List */}
+              {slide.features.length > 0 && (
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4 mt-2">
+                  {slide.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center text-white/95 text-sm md:text-[15px] font-medium">
+                      <FaCheckCircle className="text-[#ffc222] mr-3 shrink-0 text-lg shadow-sm" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Lightning Fast CTA Button Hover */}
+      <div className="mt-8 md:mt-10 relative z-30">
+        <a 
+          href="https://api.whatsapp.com/send/?phone=923280425087&text=Hi%21+I%27d+like+to+learn+more+ABOUT+AL+BARBARI+GOAT+FARMING.&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-4 md:gap-6 bg-[#12823b] backdrop-blur-md border border-[#12823b] rounded-full pl-7 md:pl-9 pr-2 py-2 hover:bg-[#1a5a1f] hover:shadow-[0_8px_25px_rgba(18,130,59,0.4)] transition-all duration-150 ease-out w-fit transform-gpu"
+        >
+          <span className="text-white font-bold text-[15px] md:text-[17px] tracking-wide">
+            Order Online Now
+          </span>
+          <div className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] rounded-full bg-[#ffc222] flex items-center justify-center transition-transform duration-150 ease-out shrink-0">
+            {/* Arrow snaps up instantly on hover */}
+            <FaArrowRight className="text-[#0a1a0f] text-sm md:text-lg transition-transform duration-150 ease-out group-hover:-translate-y-[4px] group-hover:translate-x-[4px] group-hover:-rotate-45" />
           </div>
-
-        </div>
+        </a>
       </div>
 
-      {/* Right Side Carousel Indicators */}
-      <div className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 flex flex-col gap-3 md:gap-4 z-30">
-        {SLIDES_DATA.map((_, idx) => (
-          <button 
-            key={idx}
-            onClick={() => setCurrentSlide(idx)}
-            className={`w-[12px] h-[12px] md:w-[14px] md:h-[14px] rounded-full border-[2.5px] transition-all duration-300 ${
-              currentSlide === idx 
-                ? 'bg-[#ffc222] border-[#ffc222] scale-125 shadow-md' 
-                : 'bg-transparent border-white/60 hover:border-white'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`} 
-          />
-        ))}
-      </div>
+    </div>
+  </div>
 
-    </section>
+  {/* Right Side Carousel Indicators */}
+  <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-3 md:gap-4 z-30">
+    {SLIDES_DATA.map((_, idx) => (
+      <button 
+        key={idx}
+        onClick={() => setCurrentSlide(idx)}
+        className={`transform-gpu transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-full ${
+          currentSlide === idx 
+            ? 'w-[8px] h-[32px] md:w-[10px] md:h-[40px] bg-[#ffc222] shadow-[0_0_12px_rgba(255,194,34,0.6)]' 
+            : 'w-[8px] h-[8px] md:w-[10px] md:h-[10px] bg-white/40 hover:bg-white/90 hover:scale-110'
+        }`}
+        aria-label={`Go to slide ${idx + 1}`} 
+      />
+    ))}
+  </div>
+
+</section>
 
     <div className="relative w-full bg-[#ffc222] py-4 md:py-5 overflow-hidden select-none border-y-2 border-[#0a1a0f]/10 shadow-md z-30">
       

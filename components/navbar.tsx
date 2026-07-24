@@ -200,62 +200,75 @@ const Header: React.FC = () => {
 
                 {/* Main Green Bar */}
                 <div
-                  className="ml-[39px] xl:ml-[44px] flex-1 flex items-center gap-3 xl:gap-6 pr-4 xl:pr-8 text-white z-10 min-w-0"
-                  style={{ backgroundColor: primaryGreen, borderBottom: `3px solid ${accentYellow}` }}
-                >
-                  {/* Dua Marquee — Arabic + Urdu translation, own fonts */}
-                  <div className="flex-1 min-w-0 h-full overflow-hidden flex items-center">
-                    <div className="animate-marquee-dua w-max">
-                      {[...Array(2)].map((_, i) => (
-                        <span key={i} className="mx-6 xl:mx-10 inline-flex items-baseline gap-3">
-                          <span
-                            dir="rtl"
-                            className="font-serif text-[13px] xl:text-[16px] tracking-wide"
-                            style={{ color: accentYellow }}
-                          >
-                            رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ
-                          </span>
-                          <span className="text-white/40 text-xs">|</span>
-                          <span
-                            dir="rtl"
-                            className="font-nastaliq text-[13px] xl:text-[15px] tracking-wide text-white/90"
-                          >
-                            اے میرے رب، جو بھلائی بھی تو مجھ پر نازل کرے میں اس کا محتاج ہوں
-                          </span>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+  className="ml-[39px] xl:ml-[44px] flex-1 flex items-center gap-3 xl:gap-6 pr-4 xl:pr-8 text-white z-10 min-w-0"
+  style={{ backgroundColor: primaryGreen, borderBottom: `3px solid ${accentYellow}` }}
+>
+  {/* Dua Marquee — Arabic + Urdu translation, own fonts */}
+  <div className="flex-1 min-w-0 h-full overflow-hidden flex items-center relative">
+    
+    {/* Left Green Blur Overlay */}
+    <div 
+      className="absolute left-0 top-0 bottom-0 w-12 xl:w-20 z-10 pointer-events-none"
+      style={{ background: `linear-gradient(to right, ${primaryGreen}, transparent)` }}
+    ></div>
 
-                  {/* Divider */}
-                  <div className="w-[1px] h-[18px] bg-white/30 shrink-0 hidden xl:block"></div>
+    {/* Right Green Blur Overlay */}
+    <div 
+      className="absolute right-0 top-0 bottom-0 w-12 xl:w-20 z-10 pointer-events-none"
+      style={{ background: `linear-gradient(to left, ${primaryGreen}, transparent)` }}
+    ></div>
 
-                  {/* Phone Info */}
-                  <a
-                    href="tel:+923280425087"
-                    className="flex items-center gap-2 xl:gap-3 hover:text-[#ffc222] transition-colors group shrink-0"
-                  >
-                    <FaPhoneAlt size={14} color={accentYellow} />
-                    <div className="hidden xl:flex flex-col leading-tight">
-                      <span className="text-[9px] text-gray-200 font-bold tracking-widest group-hover:text-white transition-colors">
-                        CALL US
-                      </span>
-                      <span className="font-bold text-[13px] tracking-wide">+92 328 0425087</span>
-                    </div>
-                  </a>
+    <div className="animate-marquee-dua w-max">
+      {[...Array(2)].map((_, i) => (
+        <span key={i} className="mx-6 xl:mx-10 inline-flex items-baseline gap-3">
+          <span
+            dir="rtl"
+            className="font-serif text-[13px] xl:text-[16px] tracking-wide"
+            style={{ color: accentYellow }}
+          >
+            رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ
+          </span>
+          <span className="text-white/40 text-xs">|</span>
+          <span
+            dir="rtl"
+            className="font-nastaliq text-[13px] xl:text-[15px] tracking-wide text-white/90"
+          >
+            اے میرے رب، جو بھلائی بھی تو مجھ پر نازل کرے میں اس کا محتاج ہوں
+          </span>
+        </span>
+      ))}
+    </div>
+  </div>
 
-                  {/* Divider */}
-                  <div className="w-[1px] h-[18px] bg-white/30 shrink-0 hidden xl:block"></div>
+  {/* Divider */}
+  <div className="w-[1px] h-[18px] bg-white/30 shrink-0 hidden xl:block"></div>
 
-                  {/* Address Info */}
-                  <div className="items-center gap-3 shrink-0 hidden xl:flex">
-                    <FaMapMarkerAlt size={18} color={accentYellow} />
-                    <div className="flex flex-col leading-tight">
-                      <span className="text-[9px] text-gray-200 font-bold tracking-widest">LOCATION</span>
-                      <span className="text-[12px] font-semibold text-white">Trade Center JT Lahore</span>
-                    </div>
-                  </div>
-                </div>
+  {/* Phone Info */}
+  <a
+    href="tel:+923280425087"
+    className="flex items-center gap-2 xl:gap-3 hover:text-[#ffc222] transition-colors group shrink-0"
+  >
+    <FaPhoneAlt size={14} color={accentYellow} />
+    <div className="hidden xl:flex flex-col leading-tight">
+      <span className="text-[9px] text-gray-200 font-bold tracking-widest group-hover:text-white transition-colors">
+        CALL US
+      </span>
+      <span className="font-bold text-[13px] tracking-wide">+92 328 0425087</span>
+    </div>
+  </a>
+
+  {/* Divider */}
+  <div className="w-[1px] h-[18px] bg-white/30 shrink-0 hidden xl:block"></div>
+
+  {/* Address Info */}
+  <div className="items-center gap-3 shrink-0 hidden xl:flex">
+    <FaMapMarkerAlt size={18} color={accentYellow} />
+    <div className="flex flex-col leading-tight">
+      <span className="text-[9px] text-gray-200 font-bold tracking-widest">LOCATION</span>
+      <span className="text-[12px] font-semibold text-white">Main Ferozpur Road Near Ghazi Road Lahore</span>
+    </div>
+  </div>
+</div>
               </div>
 
               {/* Row 2: Main Nav Links (White Bar) */}
@@ -456,7 +469,7 @@ const Header: React.FC = () => {
                 <div className="w-[36px] h-[36px] bg-[#0a1a0f] text-white rounded-full flex items-center justify-center shrink-0 shadow-sm">
                   <FaMapMarkerAlt className="text-sm" />
                 </div>
-                <span className="text-xs leading-snug">Trade Center JT Lahore</span>
+                <span className="text-xs leading-snug">Main Ferozpur Road Near Ghazi RoadLahore</span>
               </div>
 
               {/* Mobile Socials */}
