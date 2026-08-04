@@ -371,7 +371,7 @@ export default function ContactPage() {
                   <span className="font-bold text-sm">YouTube</span>
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/s-sz-536686157/"
+                  href="https://www.linkedin.com/in/al-barbari-goat-farming-pakistan-536686157?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-3 p-4 rounded-2xl bg-[#f8faf9] border border-gray-100 hover:border-[#0a66c2]/30 hover:bg-[#0a66c2] hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 group"
