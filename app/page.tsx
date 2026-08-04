@@ -21,7 +21,7 @@ import DeliveryAreasSection from '@/components/home/DeliveryAreasSection';
 
 const SLIDES_DATA = [
   {
-    image: "1.jpeg",
+    image: "/1.jpeg",
     subheading: "Welcome To Al-Barbari Goat Farming",
     titlePrimary: "Pakistan's Trusted",
     titleSecondary: "Goat Farm",
@@ -29,7 +29,7 @@ const SLIDES_DATA = [
     features: []
   },
   {
-    image: "2.jpeg",
+    image: "/2.jpeg",
     subheading: "High Quality Breeds",
     titlePrimary: "Premium Meat",
     titleSecondary: "& Milk",
@@ -41,7 +41,7 @@ const SLIDES_DATA = [
     ]
   },
   {
-    image: "3.jpeg",
+    image: "/3.jpeg",
     subheading: "100% Certified Livestock",
     titlePrimary: "Safe & Healthy",
     titleSecondary: "Goats",
