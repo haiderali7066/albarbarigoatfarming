@@ -276,7 +276,7 @@ export default function PaymentSection() {
                 {/* Top Typography Section */}
                 <div className="relative z-10 pt-14 px-6 flex flex-col items-center text-center">
                   <span className="text-[#ffc222] font-bold text-lg tracking-widest uppercase mb-2">
-                    BOOK YOUR BUKRA
+                    BOOK YOUR BAKRA
                   </span>
                   
                   <AnimatePresence mode="wait">
@@ -355,7 +355,7 @@ export default function PaymentSection() {
                   >
                     <FaWhatsapp size={26} className="text-[#12823b]" />
                     <span className="font-nastaliq tracking-wide mb-1 text-2xl">
-                      ہم سے رابطہ کریں
+                     Book Now
                     </span>
                   </a>
                 </div>

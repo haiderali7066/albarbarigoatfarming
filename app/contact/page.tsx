@@ -197,7 +197,7 @@ export default function ContactPage() {
                   Head Office
                 </h3>
                 <p className="text-gray-500 mb-4 text-sm leading-relaxed">
-                  Main Ferozpur Road Near Ghazi Road 
+                  Trade Center JT Lahore
                 </p>
                 <p className="font-bold text-[#12823b] text-xl">
                   Lahore, Pakistan
@@ -437,7 +437,8 @@ export default function ContactPage() {
           <div className="w-full h-[500px] rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative border-8 border-white group">
             <div className="absolute inset-0 bg-[#12823b]/10 pointer-events-none group-hover:opacity-0 transition-opacity duration-500 z-10"></div>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13606.565860475471!2d74.31682709999999!3d31.50654165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919046c82ff19c1%3A0xf63aef851a7b64bc!2sTariq%20Block%20Garden%20Town%2C%20Lahore%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3400.9878810035334!2d74.3234691!3d31.5244928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3919048579875017%3A0xe6e0cfe98f770423!2sFerozepur%20Road%2C%20Lahore%2C%2054000%2C%20Pakistan!5e0!3m2!1sen!2s!4v1785845479893!5m2!1sen!2s"
+           
               width="100%"
               height="100%"
               style={{ border: 0 }}

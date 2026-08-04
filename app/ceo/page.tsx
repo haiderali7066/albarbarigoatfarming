@@ -168,7 +168,7 @@ export default function CeoMessagePage() {
                     <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
                       <div className="w-16 h-1 bg-[#ffc222] mb-4 transition-all duration-500 group-hover:w-28"></div>
                       <span className="text-sm font-bold text-[#ffc222] tracking-widest uppercase mb-1">Founder & CEO</span>
-                      <h3 className="text-white text-3xl md:text-4xl font-serif font-bold tracking-wide">Sardar Shah Zaman</h3>
+                      <h3 className="text-white text-3xl md:text-4xl font-serif font-bold tracking-wide"> Shah Zaman</h3>
                       <p className="text-gray-300 text-sm mt-2">Al-Barbari Goat Farming Lahore</p>
                     </div>
 
@@ -264,7 +264,7 @@ export default function CeoMessagePage() {
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-6">
                   <div>
-                    <h5 className="text-2xl font-bold text-[#0a1a0f] font-serif">Sardar Shah Zaman</h5>
+                    <h5 className="text-2xl font-bold text-[#0a1a0f] font-serif"> Shah Zaman</h5>
                     <p className="text-[#12823b] text-sm font-bold tracking-wider uppercase mt-1">Founder & CEO</p>
                   </div>
 
@@ -388,7 +388,7 @@ export default function CeoMessagePage() {
                 Experience the Al-Barbari Standard
               </h3>
               <p className="text-gray-500 mb-8 leading-relaxed text-base">
-                As Sardar Shah Zaman highlights, we are here for you fully prepared and fully committed. Connect with us instantly to purchase premium livestock or visit our modern facilities in Lahore.
+                As  Shah Zaman highlights, we are here for you fully prepared and fully committed. Connect with us instantly to purchase premium livestock or visit our modern facilities in Lahore.
               </p>
               
               <div className="space-y-5">
