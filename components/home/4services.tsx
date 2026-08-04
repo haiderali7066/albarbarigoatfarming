@@ -94,28 +94,28 @@ export default function ServicesSection() {
       id: "sadqah",
       title: "Sadqah Processing",
       icon: FaHeart,
-      image: "/bakray/Sadqah.png",
+      image: "https://res.cloudinary.com/dvu9vmcqd/image/upload/v1785861889/Sadqah_xsqncj.png",
       btnText: "Offer Sadqah"
     },
     {
       id: "aqeeqa",
       title: "Aqeeqa Services",
       icon: FaChild,
-      image: "/bakray/Aqeeqah.png",
+      image: "https://res.cloudinary.com/dvu9vmcqd/image/upload/v1785861884/Healthy_jtmwtg.png",
       btnText: "Book Aqeeqa"
     },
     {
       id: "healthy-bakra",
       title: "Premium Healthy Bakra",
       icon: GiGoat,
-      image: "/bakray/Healthy.png",
+      image: "https://res.cloudinary.com/dvu9vmcqd/image/upload/v1785861896/Aqeeqah_n2fjsc.png",
       btnText: "Select Bakra"
     },
     {
       id: "donation",
       title: "Charity & Donation",
       icon: FaHandHoldingHeart,
-      image: "/bakray/Donation.png",
+      image: "https://res.cloudinary.com/dvu9vmcqd/image/upload/v1785861898/Donation_zxuaaq.png",
       btnText: "Donate Now"
     }
   ];

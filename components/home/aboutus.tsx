@@ -89,7 +89,7 @@ export default function AboutUs() {
             {/* Secondary U-Shape Image (Left side bottom, rounded bottom) */}
             <div className="absolute left-0 bottom-0 w-[55%] h-[55%] rounded-b-[999px] overflow-hidden z-20 border-[12px] border-white shadow-xl bg-gray-200">
               <img 
-                src="/bakray/Desi-Bakra.png" 
+                src="https://res.cloudinary.com/dvu9vmcqd/image/upload/v1785861851/Boer-Bakra_lfrnmq.png" 
                 alt="Detailed Goat View" 
                 className="w-full h-full object-cover"
               />
