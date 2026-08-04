@@ -1,89 +1,103 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaTruck, FaMapMarkerAlt } from 'react-icons/fa';
+import React from "react";
+import { motion } from "framer-motion";
+import { FaTruck, FaMapMarkerAlt } from "react-icons/fa";
+
+const deliveryAreas = [
+  "DHA Lahore (Phases 1-9)",
+  "Lahore Cantt",
+  "Gulberg",
+  "Garden Town",
+  "Model Town",
+  "Faisal Town",
+  "Johar Town",
+  "Wapda Town",
+  "Bahria Town",
+  "Lake City",
+  "Allama Iqbal Town",
+  "Samanabad",
+  "Cavalry Ground",
+  "Valencia Town",
+  "Askari (1-11)",
+];
+
+// Duplicate items for seamless looping
+const marqueeItems = [...deliveryAreas, ...deliveryAreas];
 
 export default function DeliveryMarqueeSection() {
-  const deliveryAreas = [
-    "DHA Lahore (Phases 1-9)",
-    "Lahore Cantt",
-    "Gulberg",
-    "Garden Town",
-    "Model Town",
-    "Faisal Town",
-    "Johar Town",
-    "Wapda Town",
-    "Bahria Town",
-    "Lake City",
-    "Allama Iqbal Town",
-    "Samanabad",
-    "Cavalry Ground",
-    "Valencia Town",
-    "Askari (1-11)"
-  ];
-
   return (
-    <section className="bg-white py-20 font-sans relative overflow-hidden border-y border-gray-100">
-      
-      {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#12823b] rounded-full blur-[180px] opacity-5 pointer-events-none"></div>
+    <section className="relative overflow-hidden border-y border-gray-100 bg-white py-20">
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[320px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#12823b] opacity-5 blur-[180px]" />
 
-      {/* Section Header */}
-      <div className="max-w-[1440px] mx-auto px-6 mb-12 text-center relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
+      {/* Header */}
+      <div className="relative z-10 mx-auto mb-14 max-w-7xl px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 bg-[#f8faf9] border border-[#12823b]/20 text-[#12823b] font-bold tracking-widest uppercase text-xs px-5 py-2.5 rounded-full mb-4 shadow-sm"
+          className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#12823b]/20 bg-[#f8faf9] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.18em] text-[#12823b] shadow-sm"
         >
-          <FaTruck className="text-[#ffc222]" /> Live Delivery Coverage
+          <FaTruck
+            aria-hidden="true"
+            className="text-[#ffc222]"
+          />
+          Live Delivery Coverage
         </motion.div>
-        
-        <motion.h3 
-          initial={{ opacity: 0, y: 20 }}
+
+        <motion.h2
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-[#0a1a0f]"
+          className="text-3xl font-bold text-[#0a1a0f] md:text-4xl lg:text-5xl"
         >
-          Active Delivery Zones Across <span className="text-[#12823b]">Lahore</span>
-        </motion.h3>
+          Active Delivery Zones Across{" "}
+          <span className="text-[#12823b]">Lahore</span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mx-auto mt-5 max-w-2xl text-gray-600"
+        >
+          Fast, fresh, and reliable deliveries to all major residential areas
+          across Lahore.
+        </motion.p>
       </div>
 
-      {/* Marquee Container */}
-      <div className="relative w-full overflow-hidden flex whitespace-nowrap py-3">
-        
-        {/* Gradient Fade Edges for Seamless UI Transition */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+      {/* Marquee */}
+      <div className="relative overflow-hidden">
+        {/* Left Fade */}
+        <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-16 bg-gradient-to-r from-white via-white/80 to-transparent md:w-24 lg:w-32" />
 
-        {/* Scrolling Track */}
-        <motion.div
-          className="flex gap-6 items-center"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            duration: 35,
-            ease: "linear",
-          }}
-        >
-          {/* Duplicated array to create a seamless infinite loop */}
-          {[...deliveryAreas, ...deliveryAreas].map((area, index) => (
+        {/* Right Fade */}
+        <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-16 bg-gradient-to-l from-white via-white/80 to-transparent md:w-24 lg:w-32" />
+
+        <div className="marquee py-3">
+          {marqueeItems.map((area, index) => (
             <div
-              key={index}
-              className="flex items-center gap-3.5 bg-[#12823b] border border-green-700/40 text-white px-7 py-4 rounded-full shadow-[0_8px_30px_rgba(18,130,59,0.15)] shrink-0 hover:bg-[#0f6f32] hover:scale-105 transition-all duration-300 cursor-default group"
+              key={`${area}-${index}`}
+              className="group mx-3 flex flex-none cursor-default select-none items-center gap-3 rounded-full border border-green-700/20 bg-[#12823b] px-6 py-4 text-white shadow-lg transition-colors duration-300 hover:bg-[#0f6f32]"
             >
-              <span className="w-9 h-9 rounded-full bg-white/15 group-hover:bg-[#ffc222] group-hover:text-[#0a1a0f] flex items-center justify-center text-[#ffc222] transition-colors shadow-sm">
-                <FaMapMarkerAlt size={15} />
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-[#ffc222] transition-colors duration-300 group-hover:bg-[#ffc222] group-hover:text-[#12823b]">
+                <FaMapMarkerAlt
+                  aria-hidden="true"
+                  size={15}
+                />
               </span>
-              <span className="font-bold text-base tracking-wide">
+
+              <span className="whitespace-nowrap text-sm font-semibold tracking-wide md:text-base">
                 {area}
               </span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
-
     </section>
   );
 }

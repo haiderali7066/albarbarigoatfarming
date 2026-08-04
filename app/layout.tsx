@@ -4,6 +4,7 @@ import './globals.css';
 import FloatingNavbar from '@/components/navbar'; // Adjust import path if needed
 import Footer from '@/components/footer'; // Adjust import path if needed
 import WhatsAppButton from '../components/WhatsAppButton';
+import FloatingGoatChat from '@/components/FloatingGoatChat';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -45,7 +46,7 @@ export default function RootLayout({
       <body className="font-sans bg-[#f8faf9] text-[#0a1a0f] antialiased selection:bg-[#ffc222] selection:text-[#0a1a0f]">
         {/* WhatsApp Floating Button */}
         <WhatsAppButton />
-        
+         <FloatingGoatChat />
         {/* Floating Navbar (Sits above page content with high z-index) */}
         <FloatingNavbar />
         
