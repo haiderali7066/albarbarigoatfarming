@@ -15,33 +15,33 @@ const QUICK_OPTIONS = [
   {
     emoji: "🐐",
     title: "Son Aqeeqah",
-    subtitle: "Need 2 Barbari Goats",
-    message: "Assalam o Alaikum. I need 2 Barbari Bakra for my son's Aqeeqah.",
+    subtitle: "Need 2 Healthy Goats",
+    message: "Assalam o Alaikum. I need 2 Healthy Bakra for my son's Aqeeqah.",
   },
   {
     emoji: "🐐",
     title: "Daughter Aqeeqah",
-    subtitle: "Need 1 Barbari Goat",
+    subtitle: "Need 1  Goat",
     message:
-      "Assalam o Alaikum. I need 1 Barbari Bakra for my daughter's Aqeeqah.",
+      "Assalam o Alaikum. I need 1 Healthy Bakra for my daughter's Aqeeqah.",
   },
   {
     emoji: "🤲",
     title: "Sadqah",
     subtitle: "Healthy Goat Required",
-    message: "Assalam o Alaikum. I need a Barbari goat for Sadqah.",
+    message: "Assalam o Alaikum. I need a Healthy goat for Sadqah.",
   },
   {
     emoji: "🍖",
     title: "Family Meal",
     subtitle: "Fresh Farm Goat",
-    message: "Assalam o Alaikum. I need a Barbari goat for family meals.",
+    message: "Assalam o Alaikum. I need a Healthy goat for family meals.",
   },
   {
     emoji: "❤️",
     title: "Donation",
     subtitle: "Goat for Charity",
-    message: "Assalam o Alaikum. I need a Barbari goat for donation.",
+    message: "Assalam o Alaikum. I need a Healthy goat for donation.",
   },
 ];
 
