@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 
   keywords: [
     "Al Barbari Goat Farming",
+    "البربری گوٹ فارمنگ",
     "Barbari goats",
     "Goat farming Lahore",
     "Buy goats online",
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 512,
         height: 512,
-        alt: "AL Barbari Goat Farming",
+        alt: "AL Barbari Goat Farming Logo",
       },
     ],
 
@@ -102,12 +103,57 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // LocalBusiness Schema for Google Rich Search & Maps Results
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "AL Barbari Goat Farming",
+    alternateName: "البربری گوٹ فارمنگ",
+    image: "https://albarbarigoatfarming.com/logo.png",
+    "@id": "https://albarbarigoatfarming.com",
+    url: "https://albarbarigoatfarming.com",
+    telephone: ["+923280425087", "+923277666764"],
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Main Ferozpur Road Near Ghazi Road",
+      addressLocality: "Lahore",
+      addressRegion: "Punjab",
+      addressCountry: "PK",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 31.47,
+      longitude: 74.35,
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "08:00",
+      closes: "20:00",
+    },
+    priceRange: "$$",
+  };
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${playfair.variable} scroll-smooth`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-[#f8faf9] font-sans antialiased text-[#0a1a0f] selection:bg-[#ffc222] selection:text-[#0a1a0f]">
         {/* Floating Navigation */}
         <FloatingNavbar />

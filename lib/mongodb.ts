@@ -28,9 +28,7 @@ export async function connectDB() {
 
     const MONGODB_URI = getMongoDBURI();
 
-    await mongoose.connect(MONGODB_URI, {
-      dbName: "aistblogs",
-    });
+    await mongoose.connect(MONGODB_URI);
 
     console.log("✅ MongoDB Connected Successfully!");
     console.log(`📂 Database: ${mongoose.connection.name}`);
