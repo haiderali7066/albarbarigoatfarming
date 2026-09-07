@@ -1,117 +1,328 @@
 "use client";
 
-import Link from 'next/dist/client/link';
-import React from 'react';
+import Link from "next/link";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { FaArrowRight, FaBookOpen } from "react-icons/fa";
 
-// Sample blog data tailored for Al-Barbari Goat Farming
-const blogPosts = [
-  {
-    id: 1,
-    day: "10",
-    monthYear: "July 2026",
-    title: "The Importance of Purebred Barbari Goats",
-    excerpt: "Discover why the Barbari breed is highly valued for its exceptional meat quality, rapid growth rate, and perfect adaptability to the local climate of Punjab.",
-    image: "/bakray/Nagri-Bakra.png", 
-  },
-  {
-    id: 2,
-    day: "05",
-    monthYear: "July 2026",
-    title: "Preparing Your Sadqah & Aqeeqah With Us",
-    excerpt: "A complete guide on how our farm ensures 100% Shariah-compliant preparation, humane slaughtering, and transparent distribution of your religious sacrifices.",
-    image: "/bakray/Nuqri-Bakra.png",
-  },
-  {
-    id: 3,
-    day: "28",
-    monthYear: "June 2026",
-    title: "Farm-to-Table: Our Premium Meat Promise",
-    excerpt: "Learn about our organic feeding practices, routine medical screenings, and spacious farm environments that guarantee healthy livestock and premium quality meat.",
-    image: "/bakray/Boer-Bakra.png",
-  }
-];
+interface Blog {
+  _id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  category: string;
+  status: string;
+  createdAt: string;
+}
 
 export default function BlogSection() {
+  const [blogPosts, setBlogPosts] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("/api/blogs/latest");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch latest blogs");
+        }
+
+        const data = await response.json();
+
+        setBlogPosts(data);
+      } catch (error) {
+        console.error("Error fetching latest blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  // Don't render the section if there are no published blogs
+  // after loading has finished.
+  if (!loading && blogPosts.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="w-full py-20 md:py-28 bg-white font-sans text-[#0a1a0f] overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        
+    <section className="w-full overflow-hidden bg-white py-16 font-sans text-[#0a1a0f] sm:py-20 md:py-28">
+      <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-6 md:px-10 lg:px-12">
+
         {/* ========================================= */}
-        {/* 1. SECTION HEADER (Centered)              */}
+        {/* SECTION HEADER */}
         {/* ========================================= */}
-        <div className="flex flex-col items-center text-center mb-20">
-          {/* Top Yellow Icon (Mimicking the 3-arch icon from the image) */}
-          <div className="text-[#ffc222] mb-4">
-            <svg width="40" height="32" viewBox="0 0 40 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+
+        <div className="mb-12 flex flex-col items-center text-center sm:mb-16 md:mb-20">
+
+          {/* Decorative Icon */}
+          <div className="mb-4 text-[#ffc222] sm:mb-5">
+            <svg
+              width="40"
+              height="32"
+              viewBox="0 0 40 32"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
               <path d="M20 0L26 8V32H14V8L20 0Z" />
               <path d="M6 10L12 16V32H0V16L6 10Z" />
               <path d="M34 10L40 16V32H28V16L34 10Z" />
             </svg>
           </div>
-          
-          <span className="text-gray-500 font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4">
+
+          <span className="mb-3 text-[10px] font-bold uppercase tracking-[0.22em] text-gray-500 sm:text-xs md:text-sm">
             Articles & Updates
           </span>
-          
-          <h2 className="text-4xl md:text-[54px] font-serif font-bold text-[#0a1a0f] leading-[1.1]">
+
+          <h2 className="font-serif text-4xl font-bold leading-[1.1] text-[#0a1a0f] sm:text-5xl md:text-[54px]">
             Latest News
           </h2>
+
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-gray-500 sm:text-base">
+            Discover stories, farming insights, livestock care guides, and
+            updates from Al-Barbari.
+          </p>
         </div>
 
         {/* ========================================= */}
-        {/* 2. THREE COLUMN GRID                      */}
+        {/* LOADING STATE */}
         {/* ========================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          
-          {blogPosts.map((post) => (
-            <div key={post.id} className="flex flex-col group relative">
-              
-              {/* Image Container with Floating Badge */}
-              <div className="relative mb-6">
-                
-                {/* Floating Date Badge */}
-                <div className="absolute -top-5 -left-4 w-[90px] h-[90px] bg-[#ffc222] rounded-full flex flex-col items-center justify-center z-10 shadow-sm transform group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-[28px] font-black text-[#0a1a0f] leading-none mb-0.5">
-                    {post.day}
-                  </span>
-                  <span className="text-[10px] font-bold text-[#0a1a0f] uppercase tracking-wider">
-                    {post.monthYear}
-                  </span>
-                </div>
 
-                {/* Arch-Shaped Image Mask */}
-                {/* rounded-tr-[130px] creates the distinct large arch on the top right */}
-                <div className="w-full h-[260px] rounded-tr-[130px] rounded-tl-xl rounded-b-xl overflow-hidden bg-gray-100 border border-gray-100">
-                  <img 
-                    src={post.image} 
-                    alt={post.title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                  />
-                </div>
+        {loading ? (
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="animate-pulse"
+              >
+                <div className="mb-6 h-[240px] rounded-tl-2xl rounded-tr-[100px] rounded-b-2xl bg-gray-100 sm:h-[260px] md:h-[280px]" />
+
+                <div className="h-7 w-4/5 rounded bg-gray-100" />
+
+                <div className="mt-4 h-4 w-full rounded bg-gray-100" />
+                <div className="mt-2 h-4 w-5/6 rounded bg-gray-100" />
+
+                <div className="mt-7 h-12 w-32 rounded-full bg-gray-100" />
               </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {/* ========================================= */}
+            {/* BLOG GRID */}
+            {/* ========================================= */}
 
-              {/* Content Area */}
-              <div className="flex flex-col flex-grow pr-4">
-                <h3 className="text-2xl font-serif font-bold text-[#0a1a0f] mb-4 leading-snug group-hover:text-[#12823b] transition-colors duration-300 line-clamp-2">
-                  {post.title}
-                </h3>
-                
-                <p className="text-gray-500 text-[15px] leading-relaxed mb-8 line-clamp-3">
-                  {post.excerpt}
-                </p>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-16">
 
-                {/* Button pinned to bottom */}
-                <div className="mt-auto"> <Link href={'/blog'}>
-                  <button className="bg-[#ffc222] text-[#0a1a0f] font-bold text-sm px-9 py-3.5 rounded-full hover:bg-[#12823b] hover:text-white transition-all duration-300">
-                    Read More
-                  </button></Link>
-                </div>
-              </div>
+              {blogPosts.map((post) => (
+                <article
+                  key={post._id}
+                  className="group flex h-full flex-col"
+                >
+
+                  {/* ========================================= */}
+                  {/* IMAGE */}
+                  {/* ========================================= */}
+
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="relative mb-6 block"
+                  >
+                    <div
+                      className="
+                        relative
+                        h-[240px]
+                        w-full
+                        overflow-hidden
+                        rounded-tl-2xl
+                        rounded-tr-[100px]
+                        rounded-b-2xl
+                        border
+                        border-gray-100
+                        bg-gray-100
+                        sm:h-[260px]
+                        md:h-[280px]
+                        lg:h-[270px]
+                      "
+                    >
+
+                      {post.image ? (
+                        <>
+                          {/* Image overlay */}
+                          <div className="absolute inset-0 z-10 bg-[#0a1a0f]/5 transition-all duration-500 group-hover:bg-transparent" />
+
+                          <Image
+                            src={post.image}
+                            alt={post.title}
+                            fill
+                            sizes="
+                              (max-width: 768px) 100vw,
+                              (max-width: 1024px) 50vw,
+                              33vw
+                            "
+                            className="
+                              object-cover
+                              transition-transform
+                              duration-700
+                              ease-out
+                              group-hover:scale-105
+                            "
+                          />
+                        </>
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+                          <FaBookOpen size={42} />
+                        </div>
+                      )}
+
+                      {/* Category Badge */}
+                      {post.category && (
+                        <div className="absolute bottom-4 left-4 z-20">
+                          <span
+                            className="
+                              rounded-full
+                              bg-white/95
+                              px-4
+                              py-2
+                              text-[10px]
+                              font-bold
+                              uppercase
+                              tracking-[0.15em]
+                              text-[#12823b]
+                              shadow-sm
+                              backdrop-blur-sm
+                            "
+                          >
+                            {post.category}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+
+                  {/* ========================================= */}
+                  {/* CONTENT */}
+                  {/* ========================================= */}
+
+                  <div className="flex flex-grow flex-col pr-0 sm:pr-4">
+
+                    <Link href={`/blog/${post.slug}`}>
+                      <h3
+                        className="
+                          mb-4
+                          line-clamp-2
+                          font-serif
+                          text-2xl
+                          font-bold
+                          leading-snug
+                          text-[#0a1a0f]
+                          transition-colors
+                          duration-300
+                          group-hover:text-[#12823b]
+                        "
+                      >
+                        {post.title}
+                      </h3>
+                    </Link>
+
+                    <p
+                      className="
+                        mb-7
+                        line-clamp-3
+                        text-[15px]
+                        leading-relaxed
+                        text-gray-500
+                      "
+                    >
+                      {post.excerpt}
+                    </p>
+
+                    {/* ========================================= */}
+                    {/* READ MORE */}
+                    {/* ========================================= */}
+
+                    <div className="mt-auto">
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="
+                          inline-flex
+                          items-center
+                          gap-2
+                          rounded-full
+                          bg-[#ffc222]
+                          px-7
+                          py-3.5
+                          text-sm
+                          font-bold
+                          text-[#0a1a0f]
+                          transition-all
+                          duration-300
+                          hover:-translate-y-0.5
+                          hover:bg-[#12823b]
+                          hover:text-white
+                          hover:shadow-lg
+                        "
+                      >
+                        Read More
+
+                        <FaArrowRight
+                          className="
+                            h-3
+                            w-3
+                            transition-transform
+                            duration-300
+                            group-hover:translate-x-1
+                          "
+                        />
+                      </Link>
+                    </div>
+
+                  </div>
+                </article>
+              ))}
 
             </div>
-          ))}
 
-        </div>
+            {/* ========================================= */}
+            {/* VIEW ALL ARTICLES */}
+            {/* ========================================= */}
+
+            <div className="mt-12 flex justify-center sm:mt-16">
+              <Link
+                href="/blog"
+                className="
+                  inline-flex
+                  items-center
+                  gap-3
+                  rounded-full
+                  border
+                  border-[#0a1a0f]
+                  px-7
+                  py-3.5
+                  text-sm
+                  font-bold
+                  uppercase
+                  tracking-wider
+                  text-[#0a1a0f]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-[#0a1a0f]
+                  hover:text-white
+                "
+              >
+                View All Articles
+
+                <FaArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+          </>
+        )}
+
       </div>
     </section>
   );

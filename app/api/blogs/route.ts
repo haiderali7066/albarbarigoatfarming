@@ -2,22 +2,79 @@ import { NextRequest, NextResponse } from "next/server";
 import Blog from "@/models/Blog";
 import { connectDB } from "@/lib/mongodb";
 
-export async function GET() {
+/* =========================================================
+   GET BLOGS
+   Supports:
+   /api/blogs?page=1&limit=10
+   /api/blogs?page=2&limit=10
+========================================================= */
+
+export async function GET(req: NextRequest) {
   try {
     console.log("Connecting to MongoDB...");
     await connectDB();
 
-    console.log("Fetching blogs...");
-    const blogs = await Blog.find().sort({
-      createdAt: -1,
-    });
+    const { searchParams } = new URL(req.url);
 
-    console.log(`Found ${blogs.length} blogs`);
+    const page = Math.max(
+      1,
+      Number(searchParams.get("page")) || 1
+    );
+
+    const limit = Math.min(
+      10,
+      Math.max(
+        1,
+        Number(searchParams.get("limit")) || 10
+      )
+    );
+
+    const skip = (page - 1) * limit;
+
+    console.log(
+      `Fetching blogs - page: ${page}, limit: ${limit}, skip: ${skip}`
+    );
+
+    /*
+     * Fetch one extra blog.
+     *
+     * Example:
+     * limit = 10
+     * We fetch 11.
+     *
+     * If 11 exist → there is another page.
+     * If only 10 or less → this is the last page.
+     */
+    const blogs = await Blog.find({
+      status: "published",
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(skip)
+      .limit(limit + 1)
+      .lean();
+
+    const hasMore = blogs.length > limit;
+
+    const paginatedBlogs = hasMore
+      ? blogs.slice(0, limit)
+      : blogs;
+
+    console.log(
+      `Found ${paginatedBlogs.length} blogs. Has more: ${hasMore}`
+    );
 
     return NextResponse.json({
       success: true,
-      blogs,
+      blogs: JSON.parse(
+        JSON.stringify(paginatedBlogs)
+      ),
+      page,
+      limit,
+      hasMore,
     });
+
   } catch (error: any) {
     console.error("GET BLOGS ERROR:", error);
 
@@ -25,6 +82,7 @@ export async function GET() {
       {
         success: false,
         error: error?.message || "Unknown error",
+
         stack:
           process.env.NODE_ENV === "development"
             ? error?.stack
@@ -37,12 +95,20 @@ export async function GET() {
   }
 }
 
+
+/* =========================================================
+   CREATE BLOG
+========================================================= */
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
     const body = await req.json();
 
+    /*
+     * Check duplicate slug
+     */
     const existing = await Blog.findOne({
       slug: body.slug,
     });
@@ -59,6 +125,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    /*
+     * Create blog
+     */
     const blog = await Blog.create({
       title: body.title,
       slug: body.slug,
@@ -71,10 +140,16 @@ export async function POST(req: NextRequest) {
       status: body.status,
     });
 
-    return NextResponse.json({
-      success: true,
-      blog,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        blog,
+      },
+      {
+        status: 201,
+      }
+    );
+
   } catch (error: any) {
     console.error("CREATE BLOG ERROR:", error);
 

@@ -1,22 +1,29 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FadeInUp, StaggerContainer, StaggerItem } from '@/components/AnimatedSection';
-import { 
-  FaLeaf, FaArrowRight, FaCalendar, FaUser, 
-  FaBookOpen, FaChevronRight, FaEnvelope, FaHashtag 
-} from 'react-icons/fa';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
-// ✅ Added DB and Model imports
+import {
+  FadeInUp,
+} from "@/components/AnimatedSection";
+
+import {
+  FaLeaf,
+  FaArrowRight,
+  FaCalendar,
+  FaUser,
+  FaBookOpen,
+  FaChevronRight,
+  FaEnvelope,
+  FaHashtag,
+} from "react-icons/fa";
+
 import { connectDB } from "@/lib/mongodb";
 import BlogModel from "@/models/Blog";
 
-// ✅ Forces dynamic rendering, replacing the need for fetch cache: "no-store"
+import BlogLoadMore from "./BlogLoadMore";
+
 export const dynamic = "force-dynamic";
 
-/* ══════════════════════════════════════
-   TYPES & DATA FETCHING
-══════════════════════════════════════ */
 interface Blog {
   _id: string;
   slug: string;
@@ -30,13 +37,32 @@ interface Blog {
   createdAt: string;
 }
 
-// ✅ Replaced fetch with direct MongoDB query
-async function getBlogs(): Promise<Blog[]> {
+const FALLBACK_TOPICS = [
+  "Organic Nutrition",
+  "Sunnah Breeding",
+  "Livestock Care",
+  "Farm Management",
+  "Sadqah Guides",
+  "Herd Health",
+  "Ethical Rearing",
+];
+
+const getReadTime = (content: string = "") => {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+
+  return `${minutes} min read`;
+};
+
+async function getInitialBlogs(): Promise<Blog[]> {
   try {
     await connectDB();
 
-    const blogs = await BlogModel.find({})
+    const blogs = await BlogModel.find({
+      status: "published",
+    })
       .sort({ createdAt: -1 })
+      .limit(10)
       .lean();
 
     return JSON.parse(JSON.stringify(blogs));
@@ -46,285 +72,596 @@ async function getBlogs(): Promise<Blog[]> {
   }
 }
 
-// Utility to estimate read time
-const getReadTime = (content: string = "") => {
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.max(1, Math.ceil(words / 200)); // Avg reading speed: 200 wpm
-  return `${minutes} min read`;
-};
-
-// Fallback topics specific to Al-Barbari Goat Farming
-const FALLBACK_TOPICS = [
-  'Organic Nutrition', 'Sunnah Breeding', 'Livestock Care', 
-  'Farm Management', 'Sadqah Guides', 'Herd Health', 'Ethical Rearing'
-];
-
-/* ══════════════════════════════════════
-   MAIN ASYNC PAGE COMPONENT
-══════════════════════════════════════ */
 export default async function InsightsPage() {
-  const allBlogs = await getBlogs();
-  const publishedBlogs = allBlogs.filter((blog) => blog.status === "published");
+  const initialBlogs = await getInitialBlogs();
 
-  // Separate the most recent blog as the featured article
-  const featuredArticle = publishedBlogs[0];
-  const articlesData = publishedBlogs.slice(1);
+  const featuredArticle = initialBlogs[0];
+  const articlesData = initialBlogs.slice(1);
 
-  // Dynamically extract unique categories/tags for the topics section
+  /*
+   * Topics are generated from the blogs we already loaded.
+   * We don't make another query for the entire collection.
+   */
   const dynamicTopics = Array.from(
     new Set(
-      publishedBlogs.flatMap(blog => [blog.category, ...(blog.tags || [])])
+      initialBlogs.flatMap((blog) => [
+        blog.category,
+        ...(blog.tags || []),
+      ])
     )
-  ).filter(Boolean).slice(0, 12);
-  
-  const displayTopics = dynamicTopics.length > 3 ? dynamicTopics : FALLBACK_TOPICS;
+  )
+    .filter(Boolean)
+    .slice(0, 12);
+
+  const displayTopics =
+    dynamicTopics.length > 3
+      ? dynamicTopics
+      : FALLBACK_TOPICS;
 
   return (
-    <main className="min-h-screen bg-[#f8faf9] font-sans text-[#0a1a0f] selection:bg-[#12823b]/30 overflow-x-hidden pt-[100px]">
+    <main className="min-h-screen overflow-x-hidden bg-[#f8faf9] font-sans text-[#0a1a0f] selection:bg-[#12823b]/30 pt-[100px]">
 
-      {/* ════════ SECTION 1: HERO (DARK HERITAGE MOOD) ════════ */}
-      <section className="relative w-full min-h-[60vh] flex flex-col justify-center pt-24 pb-48 px-6 overflow-hidden rounded-b-[40px] md:rounded-b-[80px] shadow-sm z-10">
-        {/* Deep Green Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1a0f] via-[#12823b] to-[#0a1a0f] z-0"></div>
-        
-        {/* Geometric Pattern Overlay */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#ffc222_2px,transparent_2px)] [background-size:30px_30px] z-0"></div>
-        
-        {/* Watermark Logo/Text */}
-        <div className="absolute -left-20 top-20 opacity-5 select-none pointer-events-none z-0">
-          <span className="text-[200px] font-serif font-bold text-white leading-none">البربری</span>
+      {/* ===================================================== */}
+      {/* HERO */}
+      {/* ===================================================== */}
+
+      <section
+        className="
+          relative
+          flex
+          min-h-[55vh]
+          w-full
+          flex-col
+          justify-center
+          overflow-hidden
+          rounded-b-[40px]
+          px-5
+          pb-40
+          pt-20
+          shadow-sm
+          sm:px-6
+          md:min-h-[60vh]
+          md:rounded-b-[80px]
+          md:px-10
+          md:pb-48
+          md:pt-24
+          lg:px-12
+        "
+      >
+
+        {/* Main gradient */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#07150b] via-[#12823b] to-[#07150b]" />
+
+        {/* Green glow */}
+        <div
+          className="
+            absolute
+            -right-32
+            -top-32
+            h-[400px]
+            w-[400px]
+            rounded-full
+            bg-[#ffc222]/10
+            blur-[100px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            -bottom-40
+            -left-20
+            h-[400px]
+            w-[400px]
+            rounded-full
+            bg-[#12823b]/40
+            blur-[100px]
+          "
+        />
+
+        {/* Dot pattern */}
+        <div
+          className="
+            absolute
+            inset-0
+            z-0
+            opacity-[0.08]
+            pointer-events-none
+            bg-[radial-gradient(#ffc222_2px,transparent_2px)]
+            [background-size:30px_30px]
+          "
+        />
+
+        {/* Watermark */}
+        <div className="pointer-events-none absolute -left-10 top-20 z-0 select-none opacity-[0.035] sm:-left-20">
+          <span className="font-serif text-[120px] font-bold leading-none text-white sm:text-[180px] md:text-[240px]">
+            البربری
+          </span>
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 text-center flex flex-col items-center">
-          <FadeInUp className="space-y-8">
-            <div className="bg-[#ffc222] text-[#0a1a0f] font-bold tracking-[0.2em] uppercase text-xs px-5 py-2 rounded-full mb-4 inline-flex items-center gap-2 shadow-lg">
-              <FaLeaf className="text-[#12823b]" /> Knowledge & Guides
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] text-center">
+
+          <FadeInUp className="mx-auto flex max-w-4xl flex-col items-center">
+
+            {/* Label */}
+            <div
+              className="
+                mb-6
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                bg-[#ffc222]
+                px-4
+                py-2
+                text-[10px]
+                font-bold
+                uppercase
+                tracking-[0.18em]
+                text-[#0a1a0f]
+                shadow-lg
+                sm:px-5
+                sm:text-xs
+              "
+            >
+              <FaLeaf className="text-[#12823b]" />
+              Knowledge & Guides
             </div>
-            
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif text-white tracking-tight leading-[1.05] mx-auto max-w-4xl drop-shadow-xl">
-              The <span className="text-[#ffc222]">Barbari</span> Journal
+
+            {/* Heading */}
+            <h1
+              className="
+                max-w-4xl
+                font-serif
+                text-4xl
+                font-bold
+                leading-[1.05]
+                tracking-tight
+                text-white
+                drop-shadow-xl
+                sm:text-5xl
+                md:text-6xl
+                lg:text-7xl
+              "
+            >
+              The{" "}
+              <span className="text-[#ffc222]">
+                Barbari
+              </span>{" "}
+              Journal
             </h1>
-            
-            <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-medium max-w-2xl mx-auto text-opacity-90">
-              Stories, expert guides, and insights rooted in the prophetic tradition of ethical livestock rearing and organic farming.
+
+            {/* Description */}
+            <p
+              className="
+                mt-5
+                max-w-2xl
+                text-sm
+                font-medium
+                leading-relaxed
+                text-gray-200
+                sm:mt-7
+                sm:text-base
+                md:text-lg
+              "
+            >
+              Stories, expert guides, and insights rooted in
+              the prophetic tradition of ethical livestock
+              rearing and organic farming.
             </p>
+
           </FadeInUp>
+
         </div>
       </section>
 
-      {/* ════════ SECTION 2: FEATURED ARTICLE (FLOATING OVERLAP) ════════ */}
+
+      {/* ===================================================== */}
+      {/* FEATURED ARTICLE */}
+      {/* ===================================================== */}
+
       {featuredArticle && (
-        <section className="relative px-6 max-w-7xl mx-auto z-20 -mt-32 pb-24">
+        <section className="relative z-20 mx-auto -mt-24 w-full max-w-[1400px] px-5 pb-16 sm:-mt-28 sm:px-6 md:-mt-32 md:px-10 lg:px-12">
+
           <FadeInUp>
-            <Link href={`/blog/${featuredArticle.slug}`} className="block group">
-              <div className="relative bg-[#0a1a0f] rounded-[2.5rem] overflow-hidden border border-[#12823b]/30 shadow-[0_20px_50px_rgba(0,0,0,0.2)] grid grid-cols-1 lg:grid-cols-2 hover:border-[#ffc222]/50 transition-all duration-500 group-hover:-translate-y-2">
-                
-                {/* Image Side */}
-                <div className="relative h-64 lg:h-full w-full overflow-hidden bg-[#12823b]/10">
-                  <div className="absolute inset-0 bg-[#12823b]/20 mix-blend-overlay z-10 group-hover:bg-transparent transition-colors duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a0f] to-transparent z-10 lg:bg-gradient-to-r" />
+
+            <Link
+              href={`/blog/${featuredArticle.slug}`}
+              className="group block"
+            >
+
+              <div
+                className="
+                  relative
+                  grid
+                  overflow-hidden
+                  rounded-[2rem]
+                  border
+                  border-[#12823b]/30
+                  bg-[#0a1a0f]
+                  shadow-[0_20px_50px_rgba(0,0,0,0.2)]
+                  transition-all
+                  duration-500
+                  hover:-translate-y-2
+                  hover:border-[#ffc222]/50
+                  md:rounded-[2.5rem]
+                  lg:grid-cols-2
+                "
+              >
+
+                {/* IMAGE */}
+
+                <div className="relative h-[250px] overflow-hidden sm:h-[320px] lg:h-full lg:min-h-[480px]">
+
+                  <div className="absolute inset-0 z-10 bg-[#12823b]/20 mix-blend-overlay transition-colors duration-700 group-hover:bg-transparent" />
+
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a1a0f] to-transparent lg:bg-gradient-to-r" />
+
                   {featuredArticle.image ? (
-                    <Image 
-                      src={featuredArticle.image} 
-                      alt={featuredArticle.title} 
+                    <Image
+                      src={featuredArticle.image}
+                      alt={featuredArticle.title}
                       fill
-                      className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-white/20">
                       <FaBookOpen size={48} />
                     </div>
                   )}
-                  <div className="absolute top-6 left-6 z-20">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12823b] backdrop-blur-md text-xs font-bold tracking-[0.2em] text-white uppercase shadow-lg">
-                      <FaLeaf className="w-3.5 h-3.5 text-[#ffc222]" />
+
+                  {/* Featured badge */}
+                  <div className="absolute left-5 top-5 z-20 sm:left-6 sm:top-6">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#12823b] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white shadow-lg sm:text-xs">
+                      <FaLeaf className="text-[#ffc222]" />
                       Featured Story
                     </span>
                   </div>
+
                 </div>
 
-                {/* Content Side */}
-                <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center relative z-20 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] before:absolute before:inset-0 before:bg-[#0a1a0f]/90 before:-z-10">
-                  <div className="flex items-center gap-3 mb-6 text-sm font-medium text-gray-400">
-                    <span className="text-[#ffc222] font-bold uppercase tracking-[0.2em]">{featuredArticle.category}</span>
+
+                {/* CONTENT */}
+
+                <div
+                  className="
+                    relative
+                    flex
+                    flex-col
+                    justify-center
+                    bg-[#0a1a0f]
+                    p-7
+                    sm:p-10
+                    md:p-12
+                    lg:p-16
+                  "
+                >
+
+                  <div className="mb-5 flex flex-wrap items-center gap-3 text-xs font-medium text-gray-400 sm:text-sm">
+
+                    <span className="font-bold uppercase tracking-[0.15em] text-[#ffc222]">
+                      {featuredArticle.category}
+                    </span>
+
                     <span>•</span>
-                    <span>{getReadTime(featuredArticle.content || featuredArticle.excerpt)}</span>
+
+                    <span>
+                      {getReadTime(
+                        featuredArticle.content ||
+                        featuredArticle.excerpt
+                      )}
+                    </span>
+
                   </div>
-                  
-                  <h2 className="text-3xl sm:text-4xl font-serif text-white mb-6 leading-tight group-hover:text-[#ffc222] transition-colors duration-300 line-clamp-3">
+
+                  <h2
+                    className="
+                      mb-5
+                      line-clamp-3
+                      font-serif
+                      text-2xl
+                      font-bold
+                      leading-tight
+                      text-white
+                      transition-colors
+                      duration-300
+                      group-hover:text-[#ffc222]
+                      sm:text-3xl
+                      md:text-4xl
+                    "
+                  >
                     {featuredArticle.title}
                   </h2>
-                  <p className="text-lg text-gray-300 leading-relaxed mb-10 line-clamp-3">
+
+                  <p
+                    className="
+                      mb-8
+                      line-clamp-3
+                      text-sm
+                      leading-relaxed
+                      text-gray-300
+                      sm:text-base
+                      md:text-lg
+                    "
+                  >
                     {featuredArticle.excerpt}
                   </p>
-                  
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8 border-t border-[#12823b]/30">
+
+                  <div className="flex flex-col gap-5 border-t border-[#12823b]/30 pt-6 sm:flex-row sm:items-center sm:justify-between">
+
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#12823b]/20 flex items-center justify-center border border-[#12823b]/50">
-                        <FaUser className="w-4 h-4 text-[#ffc222]" />
+
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#12823b]/50 bg-[#12823b]/20">
+                        <FaUser className="h-4 w-4 text-[#ffc222]" />
                       </div>
+
                       <div>
-                        <p className="text-sm font-bold text-white">Al-Barbari Caretakers</p>
-                        <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-                          <FaCalendar className="w-3 h-3" /> 
-                          {new Date(featuredArticle.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        <p className="text-sm font-bold text-white">
+                          Al-Barbari Caretakers
+                        </p>
+
+                        <p className="mt-0.5 flex items-center gap-1 text-xs text-gray-400">
+                          <FaCalendar className="h-3 w-3" />
+
+                          {new Date(
+                            featuredArticle.createdAt
+                          ).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
                         </p>
                       </div>
+
                     </div>
-                    
-                    <div className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ffc222] text-[#0a1a0f] font-bold rounded-full hover:bg-white hover:shadow-[0_10px_20px_rgba(255,194,34,0.2)] transition-all duration-300">
+
+                    <div className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ffc222] px-6 py-3 text-sm font-bold text-[#0a1a0f] transition-all duration-300 group-hover:bg-white">
+
                       Read Full Story
-                      <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+
+                      <FaArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
+
             </Link>
+
           </FadeInUp>
+
         </section>
       )}
 
-      {/* ════════ SECTION 3: ARTICLES GRID (CLEAN LIGHT MOOD) ════════ */}
+
+      {/* ===================================================== */}
+      {/* ARTICLES */}
+      {/* ===================================================== */}
+
       {articlesData.length > 0 && (
-        <section className="py-12 px-6 max-w-7xl mx-auto pb-24">
-          <div className="flex items-center justify-between mb-12 border-b border-gray-200 pb-6">
-            <div>
-              <h2 className="text-sm font-bold text-[#12823b] uppercase tracking-[0.2em] mb-2">Recent Publications</h2>
-              <h3 className="text-3xl md:text-4xl font-serif text-[#0a1a0f]">More from the Farm</h3>
-            </div>
-            <Link href="#archive" className="hidden sm:flex items-center gap-2 text-sm font-bold text-[#12823b] hover:text-[#0a1a0f] transition-colors tracking-widest uppercase">
-              View Archive <FaChevronRight className="w-3 h-3" />
-            </Link>
-          </div>
-          
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articlesData.map((article) => (
-              <StaggerItem key={article._id} className="h-full">
-                <Link href={`/blog/${article.slug}`} className="group bg-white border border-gray-100 rounded-[2rem] overflow-hidden hover:border-[#12823b]/30 shadow-lg hover:shadow-[0_20px_40px_rgba(18,130,59,0.08)] transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
-                  
-                  {/* Card Image Header */}
-                  <div className="relative h-56 overflow-hidden bg-[#f8faf9]">
-                    <div className="absolute inset-0 bg-[#0a1a0f]/10 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                    {article.image ? (
-                      <Image 
-                        src={article.image} 
-                        alt={article.title} 
-                        fill
-                        className="object-cover transform group-hover:scale-105 transition-transform duration-700"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-                        <FaBookOpen size={40} />
-                      </div>
-                    )}
-                    <div className="absolute top-4 left-4 z-20">
-                      <span className="px-3 py-1.5 rounded-md bg-white/95 backdrop-blur text-[10px] font-bold tracking-[0.2em] text-[#12823b] uppercase shadow-sm border border-gray-100">
-                        {article.category}
-                      </span>
-                    </div>
-                  </div>
+        <section
+          id="archive"
+          className="mx-auto w-full max-w-[1400px] px-5 pb-20 sm:px-6 md:px-10 md:pb-24 lg:px-12"
+        >
 
-                  {/* Card Content */}
-                  <div className="p-8 flex flex-col flex-grow relative">
-                    <div className="flex items-center gap-2 text-xs font-bold text-gray-400 mb-4 uppercase tracking-wider">
-                      <FaCalendar className="w-3.5 h-3.5" />
-                      {new Date(article.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                    </div>
-                    
-                    <h3 className="text-2xl font-serif text-[#0a1a0f] mb-4 group-hover:text-[#12823b] transition-colors duration-300 line-clamp-2">
-                      {article.title}
-                    </h3>
-                    <p className="text-gray-500 leading-relaxed mb-8 flex-grow line-clamp-3">
-                      {article.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center justify-between border-t border-gray-100 pt-6 mt-auto">
-                      <p className="text-sm font-medium text-gray-500 flex items-center gap-2">
-                        <FaUser className="w-4 h-4 text-gray-300" />
-                        Farm Team
-                      </p>
-                      <div className="inline-flex items-center gap-1.5 text-sm font-bold text-[#12823b] group-hover:text-[#ffc222] transition-colors tracking-widest uppercase">
-                        Read
-                        <FaArrowRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+          {/* Header */}
+
+          <div className="mb-10 flex flex-col gap-5 border-b border-gray-200 pb-6 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+
+            <div>
+
+              <h2 className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#12823b]">
+                Recent Publications
+              </h2>
+
+              <h3 className="font-serif text-3xl font-bold text-[#0a1a0f] sm:text-4xl">
+                More from the Farm
+              </h3>
+
+            </div>
+
+            <Link
+              href="/blog"
+              className="hidden items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#12823b] transition-colors hover:text-[#0a1a0f] sm:flex"
+            >
+              All Articles
+              <FaChevronRight className="h-3 w-3" />
+            </Link>
+
+          </div>
+
+
+          {/* Initial 9 articles + Load More */}
+
+          <BlogLoadMore initialBlogs={articlesData} />
+
         </section>
       )}
 
-      {/* ════════ SECTION 4: TOPICS EXPLORATION (DARK GREEN MOOD) ════════ */}
-      <section className="relative py-24 md:py-32 px-6 bg-[#0a1a0f] border-y-4 border-[#12823b] overflow-hidden">
-        {/* Arabesque subtle pattern */}
-        <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] z-0"></div>
-        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_center,rgba(18,130,59,0.3)_0%,transparent_100%)]" />
-        
-        <div className="max-w-5xl mx-auto relative z-10 text-center">
+
+      {/* ===================================================== */}
+      {/* TOPICS */}
+      {/* ===================================================== */}
+
+      <section className="relative overflow-hidden border-y-4 border-[#12823b] bg-[#0a1a0f] px-5 py-20 sm:px-6 md:px-10 md:py-28">
+
+        <div className="absolute inset-0 opacity-[0.035] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]" />
+
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(18,130,59,0.3)_0%,transparent_70%)]" />
+
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
+
           <FadeInUp>
-            <span className="text-xs font-bold tracking-[0.2em] text-[#ffc222] uppercase mb-4 block">
+
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-[#ffc222]">
               Knowledge Directory
             </span>
-            <h2 className="text-3xl md:text-5xl font-serif text-white mb-12 leading-tight">
+
+            <h2 className="mb-10 font-serif text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
               Explore by Topic & Tradition
             </h2>
-            
-            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
+
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+
               {displayTopics.map((topic) => (
                 <button
                   key={topic}
-                  className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#12823b]/10 border border-[#12823b]/30 text-gray-300 hover:border-[#ffc222] hover:bg-[#ffc222]/10 hover:text-[#ffc222] transition-all duration-300 text-sm font-bold tracking-wide backdrop-blur-sm"
+                  className="
+                    group
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    border
+                    border-[#12823b]/30
+                    bg-[#12823b]/10
+                    px-5
+                    py-3
+                    text-xs
+                    font-bold
+                    tracking-wide
+                    text-gray-300
+                    backdrop-blur-sm
+                    transition-all
+                    duration-300
+                    hover:border-[#ffc222]
+                    hover:bg-[#ffc222]/10
+                    hover:text-[#ffc222]
+                    sm:px-6
+                    sm:text-sm
+                  "
                 >
-                  <FaHashtag className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+                  <FaHashtag className="h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100" />
+
                   {topic}
                 </button>
               ))}
+
             </div>
+
           </FadeInUp>
+
         </div>
+
       </section>
 
-      {/* ════════ SECTION 5: NEWSLETTER CTA (DEEP GREEN & GOLD MOOD) ════════ */}
-      <section className="py-24 px-6 bg-[#f8faf9]">
-        <FadeInUp className="max-w-5xl mx-auto relative bg-[#12823b] rounded-[40px] p-10 sm:p-16 lg:p-20 text-center overflow-hidden shadow-[0_20px_60px_rgba(18,130,59,0.2)] border border-[#12823b]">
-          
-          {/* Decorative geometric patterns */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] border-[2px] border-[#ffc222]/20 rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] border-[2px] border-white/10 rounded-full -translate-x-1/3 translate-y-1/3 pointer-events-none" />
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:20px_20px]"></div>
-          
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <span className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#ffc222] text-[#0a1a0f] mb-8 shadow-lg transform rotate-3">
-              <FaEnvelope className="w-8 h-8" />
+
+      {/* ===================================================== */}
+      {/* NEWSLETTER */}
+      {/* ===================================================== */}
+
+      <section className="bg-[#f8faf9] px-5 py-16 sm:px-6 sm:py-20 md:px-10 md:py-24 lg:px-12">
+
+        <FadeInUp
+          className="
+            relative
+            mx-auto
+            max-w-6xl
+            overflow-hidden
+            rounded-[2rem]
+            border
+            border-[#12823b]
+            bg-[#12823b]
+            p-8
+            text-center
+            shadow-[0_20px_60px_rgba(18,130,59,0.2)]
+            sm:rounded-[40px]
+            sm:p-12
+            md:p-16
+            lg:p-20
+          "
+        >
+
+          <div className="pointer-events-none absolute right-0 top-0 h-[400px] w-[400px] translate-x-1/3 -translate-y-1/3 rounded-full border-2 border-[#ffc222]/20" />
+
+          <div className="pointer-events-none absolute bottom-0 left-0 h-[350px] w-[350px] -translate-x-1/3 translate-y-1/3 rounded-full border-2 border-white/10" />
+
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:20px_20px]" />
+
+          <div className="relative z-10 mx-auto max-w-2xl">
+
+            <span className="mb-7 inline-flex h-14 w-14 rotate-3 items-center justify-center rounded-2xl bg-[#ffc222] text-[#0a1a0f] shadow-lg sm:h-16 sm:w-16">
+
+              <FaEnvelope className="h-7 w-7 sm:h-8 sm:w-8" />
+
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-white mb-6 leading-tight">
+
+            <h2 className="mb-5 font-serif text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
               Join Our Community.
             </h2>
-            <p className="text-gray-200 text-lg mb-10 leading-relaxed font-medium">
-              Subscribe to receive our latest guides on organic livestock care, farm updates, and exclusive priority booking for Sadqah and Aqiqah.
+
+            <p className="mb-8 text-sm font-medium leading-relaxed text-gray-200 sm:mb-10 sm:text-base md:text-lg">
+              Subscribe to receive our latest guides on organic livestock
+              care, farm updates, and exclusive priority booking for Sadqah
+              and Aqiqah.
             </p>
-            
-            <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" action="/api/subscribe" method="POST">
+
+            <form
+              className="mx-auto flex max-w-lg flex-col gap-3 sm:flex-row"
+              action="/api/subscribe"
+              method="POST"
+            >
+
               <input
                 type="email"
                 required
                 placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-full bg-black/20 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#ffc222] backdrop-blur-sm transition-all font-medium"
+                className="
+                  min-w-0
+                  flex-1
+                  rounded-full
+                  border
+                  border-white/20
+                  bg-black/20
+                  px-6
+                  py-4
+                  text-sm
+                  font-medium
+                  text-white
+                  placeholder-white/60
+                  backdrop-blur-sm
+                  transition-all
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#ffc222]
+                "
               />
-              <button 
+
+              <button
                 type="submit"
-                className="px-8 py-4 bg-[#ffc222] text-[#0a1a0f] font-bold rounded-full hover:bg-white hover:shadow-[0_15px_30px_rgba(255,255,255,0.3)] hover:-translate-y-1 transition-all duration-300 whitespace-nowrap"
+                className="
+                  rounded-full
+                  bg-[#ffc222]
+                  px-8
+                  py-4
+                  text-sm
+                  font-bold
+                  text-[#0a1a0f]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-white
+                  hover:shadow-[0_15px_30px_rgba(255,255,255,0.3)]
+                "
               >
                 Subscribe
               </button>
+
             </form>
-            <p className="text-xs text-white/60 mt-6 font-bold tracking-[0.1em] uppercase">
+
+            <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.1em] text-white/60 sm:mt-6 sm:text-xs">
               We respect your privacy. No spam, ever.
             </p>
+
           </div>
+
         </FadeInUp>
+
       </section>
 
     </main>
