@@ -22,7 +22,23 @@ import BlogModel from "@/models/Blog";
 
 import BlogLoadMore from "./BlogLoadMore";
 
-export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Goat Farming Blog | Al Barbari Goat Farming",
+  description:
+    "Explore expert goat farming guides, goat breeds, goat prices, livestock care, organic farming, and ethical goat rearing insights from Al Barbari Goat Farming.",
+  alternates: {
+    canonical: "https://www.albarbarigoatfarming.com/blog",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+// export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface Blog {
   _id: string;
