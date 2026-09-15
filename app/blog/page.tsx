@@ -51,7 +51,7 @@ interface Blog {
   tags?: string[];
   status: string;
   createdAt: string;
-}
+} 
 
 const FALLBACK_TOPICS = [
   "Organic Nutrition",
