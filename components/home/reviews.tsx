@@ -1,240 +1,293 @@
-import Image from "next/image";
-import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaChevronRight,
-} from "react-icons/fa";
+"use client";
 
-export default function Footer() {
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaStar, FaQuoteLeft, FaWhatsapp, FaTimes, FaHeart } from 'react-icons/fa';
+
+interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
+  quote: string;
+  rating: number;
+}
+
+export default function CommunityReviews() {
+  const [mounted, setMounted] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoplay, setIsAutoplay] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const WHATSAPP_NUMBER = "923280425087";
+  const [formData, setFormData] = useState({ name: '', feedback: '' });
+
+  // Fresh, high-quality community profile portraits
+  const testimonials: Testimonial[] = [
+    {
+      id: 0,
+      name: "Haji Muhammad Saleem",
+      role: "Sadqah Client, Lahore",
+      image: "https://static.vecteezy.com/system/resources/previews/024/183/502/non_2x/male-avatar-portrait-of-a-young-man-with-a-beard-illustration-of-male-character-in-modern-color-style-vector.jpg",
+      quote: "Masha'Allah, the transparency Al-Barbari offers is unmatched. They shared the video of the Sadqah slaughtering and distributed the meat beautifully.",
+      rating: 5
+    },
+    {
+      id: 1,
+      name: "Sohail Ahmed",
+      role: "Aqeeqa Customer",
+      image: "https://static.vecteezy.com/system/resources/previews/001/859/129/non_2x/young-man-with-beard-avatar-character-free-vector.jpg",
+      quote: "Booked two goats for my son's Aqeeqa. The animals were majestic, healthy, and perfectly compliant with Sunnah guidelines. Exceptional service!",
+      rating: 5
+    },
+    {
+      id: 2,
+      name: "Dr. Yasmin Malik",
+      role: "Community Donor",
+      image: "https://static.vecteezy.com/system/resources/thumbnails/005/026/528/small/illustration-female-avatar-in-flat-style-free-vector.jpg",
+      quote: "I regularly contribute to their meat distribution drives. Trusting an organization with your religious obligations is easy with their high integrity.",
+      rating: 5
+    },
+    {
+      id: 3,
+      name: "Kamran & Family",
+      role: "Premium Goat Buyer",
+      image: "https://us.123rf.com/450wm/ivandaariefb/ivandaariefb2601/ivandaariefb260109633/290440562-illustration-of-a-woman-reading-a-book-with-a-thoughtful-expression-surrounded-by-decorative.jpg?ver=6",
+      quote: "Visits to their Lahore farm are always a pleasure. You can see how cleanly the goats are raised on organic feed. Highly recommended.",
+      rating: 5
+    }
+  ];
+
+  useEffect(() => {
+    setMounted(true);
+    if (!isAutoplay) return;
+    
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [isAutoplay, testimonials.length]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const whatsappText = `*New Customer Review/Feedback* ⭐\n\n*Name:* ${formData.name}\n*Feedback:* ${formData.feedback}`;
+    const encoded = encodeURIComponent(whatsappText);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, "_blank");
+    setIsModalOpen(false);
+    setFormData({ name: '', feedback: '' });
+  };
+
+  if (!mounted) return null;
+
   return (
-    <footer className="bg-[#12823b] text-white font-sans relative overflow-hidden">
-      {/* Optional: Subtle background glow/overlay for depth */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/5 to-black/20 pointer-events-none" />
+    <section className="bg-[#f8faf9] py-14 px-6 font-sans overflow-hidden">
+      <div className="max-w-[1440px] mx-auto">
+        
+        {/* Sleeker, Shorter Asymmetrical Banner */}
+        <div className="relative w-full bg-[#12823b] text-white overflow-hidden p-6 py-14 md:p-16 lg:py-20 flex flex-col items-center justify-center text-center rounded-tr-[80px] rounded-br-[120px] rounded-bl-[120px] rounded-tl-none shadow-[0_25px_50px_rgba(18,130,59,0.15)] min-h-[420px] lg:min-h-[480px]">
+          
+          {/* Islamic Vector Pattern Overlay */}
+          <div 
+            className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none z-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0l10 30h30L55 50l10 30-25-20-25 20 10-30L0 30h30z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+              backgroundSize: '40px 40px'
+            }}
+          ></div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-20 relative z-10">
-        {/* ========================================= */}
-        {/* Top Section                               */}
-        {/* ========================================= */}
-        <div className="grid lg:grid-cols-3 gap-12 pb-14 border-b border-white/20">
-          {/* 1. Logo & About */}
-          <div>
-            <div className="flex items-center gap-4">
-              <div className="relative w-20 h-20 bg-white/10 rounded-full p-2 backdrop-blur-sm border border-white/20 shadow-lg">
-                <Image
-                  src="/logo.png"
-                  alt="Al Barbari"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
+          {/* Glowing back ambiance */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] bg-[#ffc222] rounded-full blur-[120px] opacity-15 pointer-events-none"></div>
 
-              <div>
-                <h2 className="text-3xl font-bold text-white drop-shadow-md">
-                  AL Barbari
-                </h2>
-                <p className="text-[#ffc222] tracking-[3px] uppercase text-sm font-bold mt-1 drop-shadow-sm">
-                  Goat Farming
-                </p>
-              </div>
-            </div>
+          {/* ================= FLOATING AVATARS (SCALED DOWN FOR HEIGHT) ================= */}
+          {/* Avatar 1: Top-Left */}
+          <button 
+            onClick={() => { setActiveIndex(0); setIsAutoplay(false); }}
+            className={`absolute hidden lg:flex top-8 left-8 xl:top-14 xl:left-20 w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 z-20 hover:scale-110 hover:shadow-xl ${activeIndex === 0 ? 'border-[#ffc222] scale-105' : 'border-white/40 grayscale hover:grayscale-0'}`}
+          >
+            <img src={testimonials[0].image} alt={testimonials[0].name} className="w-full h-full object-cover" />
+          </button>
 
-            <p className="mt-6 text-white/90 leading-relaxed max-w-md font-medium">
-              Delivering healthy, vaccinated, premium quality goats for Qurbani,
-              Aqiqah, Sadqah, breeding, milk production and farm requirements
-              throughout Pakistan.
-            </p>
+          {/* Avatar 2: Bottom-Left */}
+          <button 
+            onClick={() => { setActiveIndex(1); setIsAutoplay(false); }}
+            className={`absolute hidden lg:flex bottom-8 left-12 xl:bottom-14 xl:left-28 w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 z-20 hover:scale-110 hover:shadow-xl ${activeIndex === 1 ? 'border-[#ffc222] scale-105' : 'border-white/40 grayscale hover:grayscale-0'}`}
+          >
+            <img src={testimonials[1].image} alt={testimonials[1].name} className="w-full h-full object-cover" />
+          </button>
 
-            {/* Trust Indicators */}
-            <div className="flex gap-8 mt-8">
-              <div>
-                <h4 className="text-[#ffc222] text-2xl font-bold drop-shadow-sm">10+</h4>
-                <p className="text-sm text-white/80 font-medium">Years Experience</p>
-              </div>
+          {/* Avatar 3: Top-Right */}
+          <button 
+            onClick={() => { setActiveIndex(2); setIsAutoplay(false); }}
+            className={`absolute hidden lg:flex top-8 right-8 xl:top-14 xl:right-20 w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 z-20 hover:scale-110 hover:shadow-xl ${activeIndex === 2 ? 'border-[#ffc222] scale-105' : 'border-white/40 grayscale hover:grayscale-0'}`}
+          >
+            <img src={testimonials[2].image} alt={testimonials[2].name} className="w-full h-full object-cover" />
+          </button>
 
-              <div>
-                <h4 className="text-[#ffc222] text-2xl font-bold drop-shadow-sm">5000+</h4>
-                <p className="text-sm text-white/80 font-medium">Happy Customers</p>
-              </div>
+          {/* Avatar 4: Bottom-Right */}
+          <button 
+            onClick={() => { setActiveIndex(3); setIsAutoplay(false); }}
+            className={`absolute hidden lg:flex bottom-8 right-12 xl:bottom-14 xl:right-28 w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-300 z-20 hover:scale-110 hover:shadow-xl ${activeIndex === 3 ? 'border-[#ffc222] scale-105' : 'border-white/40 grayscale hover:grayscale-0'}`}
+          >
+            <img src={testimonials[3].image} alt={testimonials[3].name} className="w-full h-full object-cover" />
+          </button>
 
-              <div>
-                <h4 className="text-[#ffc222] text-2xl font-bold drop-shadow-sm">100%</h4>
-                <p className="text-sm text-white/80 font-medium">Healthy Livestock</p>
-              </div>
-            </div>
-          </div>
-
-          {/* 2. Quick Links */}
-          <div className="lg:mx-auto">
-            <h3 className="text-2xl font-semibold mb-6 text-white drop-shadow-sm">
-              Quick Links
-            </h3>
-
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-              {[
-                ["Home", "/"],
-                ["Bakray", "/bakray"],
-                ["Haqeeqah", "/sadqah"],
-                ["CEO Message", "/ceo"],
-                ["Blog", "/blog"],
-                ["Contact", "/contact"],
-              ].map(([title, href]) => (
-                <Link
-                  key={title}
-                  href={href}
-                  className="flex items-center gap-2 text-white/90 hover:text-[#ffc222] transition-all duration-300 group font-medium"
-                >
-                  <FaChevronRight className="text-xs group-hover:translate-x-1 transition-transform text-[#ffc222]" />
-                  {title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* 3. Newsletter */}
-          <div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-7 shadow-xl">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Join Our Newsletter
-              </h3>
-
-              <p className="text-white/80 text-sm mb-6 font-medium">
-                Get updates about available goats, special offers, livestock
-                tips and seasonal announcements.
-              </p>
-
-              <div className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full h-12 px-5 rounded-full bg-black/20 border border-white/20 outline-none focus:border-[#ffc222] focus:bg-black/30 text-white placeholder-white/60 transition-all shadow-inner"
-                />
-
-                <button className="w-full h-12 rounded-full bg-[#ffc222] hover:bg-[#eab01b] text-[#022417] font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                  Subscribe Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================= */}
-        {/* Middle Section: Contact Info              */}
-        {/* ========================================= */}
-        <div className="grid md:grid-cols-3 gap-10 py-12 border-b border-white/20">
-          {/* Phone */}
-          <div className="flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-[#ffc222] border border-white/20 group-hover:border-[#ffc222] flex items-center justify-center shrink-0 shadow-md transition-all duration-300">
-              <FaPhoneAlt className="text-white group-hover:text-[#022417] text-lg transition-colors duration-300" />
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-2 text-white text-lg">Call Us</h4>
-              <p className="text-white/90 font-medium">+92 328 0425087</p>
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className="flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-[#ffc222] border border-white/20 group-hover:border-[#ffc222] flex items-center justify-center shrink-0 shadow-md transition-all duration-300">
-              <FaEnvelope className="text-white group-hover:text-[#022417] text-lg transition-colors duration-300" />
-            </div>
-
-            <div className="w-full overflow-hidden">
-              <h4 className="font-semibold mb-2 text-white text-lg">Email</h4>
-              <div className="space-y-1.5 flex flex-col">
-                <a
-                  href="mailto:info@albarbarigoatfarming.com"
-                  className="text-white/90 font-medium text-sm hover:text-[#ffc222] transition-colors truncate"
-                >
-                  info@albarbarigoatfarming.com
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Location */}
-          <div className="flex items-start gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-white/10 group-hover:bg-[#ffc222] border border-white/20 group-hover:border-[#ffc222] flex items-center justify-center shrink-0 shadow-md transition-all duration-300">
-              <FaMapMarkerAlt className="text-white group-hover:text-[#022417] text-lg transition-colors duration-300" />
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-2 text-white text-lg">
-                Location
-              </h4>
-              <p className="text-white/90 font-medium leading-relaxed">
-                Trade Center JT Lahore
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================= */}
-        {/* Bottom Section                            */}
-        {/* ========================================= */}
-        <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col gap-2 text-center md:text-left">
-            <p className="text-white/80 text-sm font-medium">
-              © {new Date().getFullYear()} Al Barbari Farm. All Rights Reserved.
-            </p>
-            <p className="text-white/80 text-sm font-medium">
-              Developed by{" "}
-              <a
-                href="http://devntomsolutions.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-[#ffc222] transition-colors font-semibold"
+          {/* ================= MOBILE LAYOUT AVATAR ROW ================= */}
+          <div className="flex lg:hidden gap-3 mb-6 z-10">
+            {testimonials.map((test, index) => (
+              <button
+                key={test.id}
+                onClick={() => { setActiveIndex(index); setIsAutoplay(false); }}
+                className={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-300 ${activeIndex === index ? 'border-[#ffc222] scale-110 shadow-md' : 'border-white/30'}`}
               >
-                Devntom Solutions
-              </a>
-            </p>
-            <p className="text-white/80 text-sm font-medium">
-              A Project By{" "}
-              <a
-                href="https://shahzamangroups.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#ffc222] hover:text-white transition-colors font-bold tracking-wide"
-              >
-                Shah Zaman Groups
-              </a>
-            </p>
-          </div>
-
-          {/* Social */}
-          <div className="flex gap-3">
-            {[FaFacebookF, FaInstagram, FaLinkedinIn].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-11 h-11 rounded-full border border-white/30 bg-black/10 flex items-center justify-center hover:bg-[#ffc222] hover:border-[#ffc222] hover:text-[#022417] hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-              >
-                <Icon />
-              </a>
+                <img src={test.image} alt={test.name} className="w-full h-full object-cover" />
+              </button>
             ))}
           </div>
 
-          <div className="flex gap-6 text-sm font-medium">
-            <Link
-              href="/privacy-policy"
-              className="text-white/80 hover:text-[#ffc222] transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-white/80 hover:text-[#ffc222] transition-colors"
-            >
-              Terms & Conditions
-            </Link>
+          {/* ================= COMPACT CENTER CONTENT ================= */}
+          <div className="relative z-10 max-w-xl px-4 flex flex-col items-center">
+            
+            {/* Quote Icon */}
+            <div className="mb-2.5 text-[#ffc222]/20">
+              <FaQuoteLeft size={32} />
+            </div>
+
+            {/* Stars */}
+            <div className="flex gap-1 mb-4">
+              {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
+                <FaStar key={i} className="text-[#ffc222] text-base" />
+              ))}
+            </div>
+
+            {/* Testimonial Quote */}
+            <div className="min-h-[90px] flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeIndex}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-lg md:text-xl font-serif text-white font-medium leading-relaxed italic"
+                >
+                  "{testimonials[activeIndex].quote}"
+                </motion.p>
+              </AnimatePresence>
+            </div>
+
+            {/* Author */}
+            <div className="mt-6 border-t border-white/10 pt-3 w-full max-w-xs">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h4 className="text-base font-bold text-white tracking-wide">
+                    {testimonials[activeIndex].name}
+                  </h4>
+                  <p className="text-[10px] uppercase tracking-widest text-gray-300 mt-0.5">
+                    {testimonials[activeIndex].role}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Action CTA Button */}
+            <div className="mt-8">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-[#ffc222] text-[#0a1a0f] font-extrabold py-3 px-8 rounded-full hover:bg-white hover:scale-105 hover:shadow-lg transition-all duration-300 text-xs tracking-wider uppercase"
+              >
+                Join Our Community
+              </button>
+            </div>
+
           </div>
+
         </div>
       </div>
-    </footer>
+
+      {/* ================= MODAL OVERLAY ================= */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-[#0a1a0f]/80 backdrop-blur-sm"
+            ></motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-md bg-white rounded-[32px] overflow-hidden shadow-2xl z-10"
+            >
+              <div className="bg-[#12823b] p-6 text-white relative">
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="absolute top-5 right-5 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white"
+                >
+                  <FaTimes />
+                </button>
+                <span className="bg-[#ffc222] text-[#0a1a0f] text-[9px] font-black uppercase px-3 py-1 rounded-full mb-2 inline-block">
+                  Community Voice
+                </span>
+                <h3 className="text-xl font-serif font-bold">Share Your Experience</h3>
+              </div>
+
+              <form onSubmit={handleReviewSubmit} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Your Name</label>
+                  <input 
+                    type="text" 
+                    required
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter full name"
+                    className="w-full bg-[#f8faf9] border border-gray-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#12823b]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Your Feedback</label>
+                  <textarea 
+                    required
+                    name="feedback"
+                    rows={3}
+                    value={formData.feedback}
+                    onChange={handleInputChange}
+                    placeholder="Tell us about your experience..."
+                    className="w-full bg-[#f8faf9] border border-gray-200 rounded-[16px] px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#12823b] resize-none"
+                  ></textarea>
+                </div>
+
+                <div className="pt-2">
+                  <button 
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2 bg-[#12823b] text-white py-3.5 rounded-full font-bold text-sm hover:bg-[#0a1a0f] transition-all shadow-md"
+                  >
+                    <FaWhatsapp className="text-lg text-[#25D366]" />
+                    Share on WhatsApp
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }
