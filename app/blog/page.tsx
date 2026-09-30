@@ -2,9 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import {
-  FadeInUp,
-} from "@/components/AnimatedSection";
+import { FadeInUp } from "@/components/AnimatedSection";
 
 import {
   FaLeaf,
@@ -37,8 +35,8 @@ export const metadata: Metadata = {
   },
 };
 
-// export const dynamic = "force-dynamic";
-export const revalidate = 3600;
+// Revalidate the page every 60 seconds
+export const revalidate = 60;
 
 interface Blog {
   _id: string;
@@ -51,7 +49,7 @@ interface Blog {
   tags?: string[];
   status: string;
   createdAt: string;
-} 
+}
 
 const FALLBACK_TOPICS = [
   "Organic Nutrition",
@@ -74,8 +72,11 @@ async function getInitialBlogs(): Promise<Blog[]> {
   try {
     await connectDB();
 
+    const now = new Date();
+
     const blogs = await BlogModel.find({
       status: "published",
+      createdAt: { $lte: now },
     })
       .sort({ createdAt: -1 })
       .limit(10)
@@ -96,7 +97,7 @@ export default async function InsightsPage() {
 
   /*
    * Topics are generated from the blogs we already loaded.
-   * We don't make another query for the entire collection.
+   * Future-dated blogs are already excluded by getInitialBlogs().
    */
   const dynamicTopics = Array.from(
     new Set(
@@ -181,8 +182,8 @@ export default async function InsightsPage() {
             absolute
             inset-0
             z-0
-            opacity-[0.08]
             pointer-events-none
+            opacity-[0.08]
             bg-[radial-gradient(#ffc222_2px,transparent_2px)]
             [background-size:30px_30px]
           "
@@ -602,9 +603,7 @@ export default async function InsightsPage() {
           <div className="relative z-10 mx-auto max-w-2xl">
 
             <span className="mb-7 inline-flex h-14 w-14 rotate-3 items-center justify-center rounded-2xl bg-[#ffc222] text-[#0a1a0f] shadow-lg sm:h-16 sm:w-16">
-
               <FaEnvelope className="h-7 w-7 sm:h-8 sm:w-8" />
-
             </span>
 
             <h2 className="mb-5 font-serif text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
@@ -625,6 +624,7 @@ export default async function InsightsPage() {
 
               <input
                 type="email"
+                name="email"
                 required
                 placeholder="Enter your email address"
                 className="
